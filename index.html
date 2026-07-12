@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bon retour à Paris 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <main class="container">
+        <header class="hero">
+            <h1 class="fade-in-up">Bon retour à Paris, mon amour</h1>
+            <p class="subtitle fade-in-up delay-1">Pour fêter ton retour ce 21, j'ai sélectionné quatre lieux parfaits pour nous retrouver.</p>
+            <p class="subtitle highlight fade-in-up delay-1">Sélectionne tes <strong>3 endroits préférés</strong> pour créer notre programme parfait !</p>
+        </header>
+
+        <div class="layout">
+            <section class="cards-container fade-in-up delay-2">
+                <!-- Card 1 -->
+                <article class="card" data-place="L'Inavoué" data-id="1">
+                    <div class="card-content">
+                        <h2>L'Inavoué</h2>
+                        <span class="location">📍 1er arrondissement</span>
+                        <p>Un restaurant caché qui propose des plats à partager et de très bons cocktails. Idéal pour discuter sans être dérangé par le bruit.</p>
+                        <button class="select-btn">Ajouter au programme</button>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="card" data-place="Le Très Particulier" data-id="2">
+                    <div class="card-content">
+                        <h2>Le Très Particulier</h2>
+                        <span class="location">📍 18e arrondissement</span>
+                        <p>Une vibe plus élégante mais toujours dans l'intimité. Avec son petit jardin caché, niveau tranquillité il n'y a pas mieux.</p>
+                        <button class="select-btn">Ajouter au programme</button>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="card" data-place="Mobster Bar" data-id="3">
+                    <div class="card-content">
+                        <h2>Mobster Bar</h2>
+                        <span class="location">📍 11e arrondissement</span>
+                        <p>Un endroit immersif avec une déco années 20. Pour y entrer, il faut répondre à une énigme, ce qui rend l'expérience encore plus cool !</p>
+                        <button class="select-btn">Ajouter au programme</button>
+                    </div>
+                </article>
+
+                <!-- Card 4 -->
+                <article class="card" data-place="L'Arbonne Cocktail Bar" data-id="4">
+                    <div class="card-content">
+                        <h2>L'Arbonne Cocktail Bar</h2>
+                        <span class="location">📍 6e arrondissement</span>
+                        <p>Un petit endroit chaleureux, parfait pour boire un verre au calme et discuter tranquillement.</p>
+                        <button class="select-btn">Ajouter au programme</button>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="cart-container fade-in-up delay-2">
+                <div class="cart-glass">
+                    <h2>Notre Programme ❤️</h2>
+                    <p class="cart-count"><span id="count">0</span> / 3 activités choisies</p>
+                    <ul id="selected-list" class="selected-list">
+                        <!-- Items ajoutés apparaîtront ici -->
+                    </ul>
+                    <button id="validate-btn" class="validate-btn" disabled>Valider notre soirée</button>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Modal de confirmation -->
+        <div id="confirmation-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="modal-title">C'est validé ! 🎉</h3>
+                <p id="modal-desc">J'ai hâte de t'y emmener. Prépare-toi pour une soirée magique !</p>
+                <div id="final-itinerary" class="final-itinerary"></div>
+                <button id="close-modal" class="secondary-btn">Fermer</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
