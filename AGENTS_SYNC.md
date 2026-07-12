@@ -23,4 +23,6 @@ Si vous êtes appelés à modifier ce projet :
 
 **Antigravity** - *Dernière modification : Création du fichier de communication.*
 
-**Claude** - *12 Juillet 2026* : Ajout de l'envoi email silencieux des choix validés via Web3Forms (`sendChoicesByEmail` dans `script.js`). ⚠️ La constante `WEB3FORMS_ACCESS_KEY` contient un placeholder — l'utilisateur doit récupérer sa clé sur web3forms.com et la remplacer. Dépôt Git initialisé et poussé sur `https://github.com/Monsieurking5D/MyBaby.git` (branche `main`).
+**Claude** - *12 Juillet 2026* : Dépôt Git initialisé et poussé sur `https://github.com/Monsieurking5D/MyBaby.git` (branche `main`).
+
+**Claude** - *12 Juillet 2026 (soir)* : Web3Forms abandonné au profit de **Supabase** (projet "Baby", ref `pbnnpbbdgqyvrrgswtac`). Table `public.soiree_choices` (id uuid, places jsonb, created_at) avec RLS : policy `anon_insert_choices` autorise uniquement l'INSERT anonyme d'un tableau de exactement 3 lieux. Aucune lecture/modification anonyme possible. `script.js` : fonction `sendChoices` fait un POST REST silencieux à la validation. Testé (insert 201, select anonyme vide, insert invalide rejeté). Les choix validés se consultent dans le Table Editor du dashboard Supabase. Reste à faire : déploiement (Vercel évoqué) avant le 21 juillet.

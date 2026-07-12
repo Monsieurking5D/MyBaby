@@ -11,30 +11,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedPlaces = [];
     const MAX_SELECTION = 3;
 
-    // Clé Web3Forms (https://web3forms.com — entre ton email, la clé arrive par mail)
-    const WEB3FORMS_ACCESS_KEY = 'REMPLACE_PAR_TA_CLE';
+    // Supabase (clé publishable : sûre côté client, RLS n'autorise que l'insertion)
+    const SUPABASE_URL = 'https://pbnnpbbdgqyvrrgswtac.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_F1wWU2_VC3XrYEa5jJSlog_GyVmpwlx';
 
-    // Envoi silencieux : elle ne voit rien, toi tu reçois un mail
-    async function sendChoicesByEmail(places) {
+    // Enregistrement silencieux : elle ne voit rien, toi tu consultes la table
+    async function sendChoices(places) {
         try {
-            const response = await fetch('https://api.web3forms.com/submit', {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/soiree_choices`, {
                 method: 'POST',
                 headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    access_key: WEB3FORMS_ACCESS_KEY,
-                    subject: 'Elle a validé son programme ! 🎉',
-                    from_name: 'SurpriseRetour',
-                    message: 'Ses 3 choix :\n' + places.map((p, i) => `${i + 1}. ${p.name}`).join('\n')
-                })
+                body: JSON.stringify({ places: places.map(p => p.name) })
             });
             if (!response.ok) {
-                console.error('Envoi email échoué :', response.status, await response.text());
+                console.error('Enregistrement échoué :', response.status, await response.text());
             }
         } catch (error) {
-            console.error('Envoi email impossible :', error);
+            console.error('Enregistrement impossible :', error);
         }
     }
 
@@ -155,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             modal.classList.remove('hidden');
             createConfetti();
-            sendChoicesByEmail(selectedPlaces);
+            sendChoices(selectedPlaces);
         }
     });
 
