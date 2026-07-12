@@ -25,4 +25,37 @@ Si vous êtes appelés à modifier ce projet :
 
 **Claude** - *12 Juillet 2026* : Dépôt Git initialisé et poussé sur `https://github.com/Monsieurking5D/MyBaby.git` (branche `main`).
 
-**Claude** - *12 Juillet 2026 (soir)* : Web3Forms abandonné au profit de **Supabase** (projet "Baby", ref `pbnnpbbdgqyvrrgswtac`). Table `public.soiree_choices` (id uuid, places jsonb, created_at) avec RLS : policy `anon_insert_choices` autorise uniquement l'INSERT anonyme d'un tableau de exactement 3 lieux. Aucune lecture/modification anonyme possible. `script.js` : fonction `sendChoices` fait un POST REST silencieux à la validation. Testé (insert 201, select anonyme vide, insert invalide rejeté). Les choix validés se consultent dans le Table Editor du dashboard Supabase. Reste à faire : déploiement (Vercel évoqué) avant le 21 juillet.
+**Claude** - *12 Juillet 2026 (soir)* : Web3Forms abandonné au profit de **Supabase**. Détails ci-dessous.
+
+---
+
+## Intégration Supabase (Claude, 12/07/2026)
+
+### Infrastructure
+- **Projet Supabase** : "Baby", ref `pbnnpbbdgqyvrrgswtac`, org "Monsieurking5D's Org" (⚠️ org différente du projet GLV — le MCP Supabase configuré localement ne voit PAS ce projet, passer par le dashboard : https://supabase.com/dashboard/project/pbnnpbbdgqyvrrgswtac)
+- **URL API** : `https://pbnnpbbdgqyvrrgswtac.supabase.co`
+- **Clé** : publishable (`sb_publishable_...`), en clair dans `script.js` — c'est normal et sûr, elle est conçue pour le client. Ne PAS y mettre de clé secrète/service_role.
+
+### Schéma
+```sql
+create table public.soiree_choices (
+  id uuid primary key default gen_random_uuid(),
+  places jsonb not null,        -- ex: ["L'Inavoué", "Mobster Bar", "L'Arbonne Cocktail Bar"]
+  created_at timestamptz not null default now()
+);
+```
+
+### Sécurité (RLS actif)
+- Policy `anon_insert_choices` : INSERT anonyme autorisé **uniquement** si `places` est un tableau JSON de exactement 3 éléments.
+- Aucune policy SELECT/UPDATE/DELETE pour `anon` → lecture/modification impossibles depuis le site.
+- Testé le 12/07 : insert valide → 201 ; select anonyme → vide ; insert 2 lieux → rejeté (42501).
+
+### Côté site
+- `script.js` : `sendChoices(places)` — POST REST silencieux appelé à la validation. Échec réseau → `console.error` seulement, l'expérience de l'utilisatrice n'est jamais interrompue (modal + confettis s'affichent quoi qu'il arrive).
+- Si vous ajoutez/renommez des lieux dans le HTML : rien à changer côté Supabase, seuls les noms (`data-place`) sont envoyés. La contrainte "exactement 3" doit rester alignée avec `MAX_SELECTION` dans `script.js`.
+
+### Consultation des résultats
+Dashboard Supabase → Table Editor → `soiree_choices`.
+
+### Reste à faire
+- [ ] Déploiement (Vercel évoqué) — nécessaire avant le retour du 21 juillet.
