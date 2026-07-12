@@ -22,3 +22,5 @@ Si vous êtes appelés à modifier ce projet :
 3. Vous pouvez utiliser ce fichier pour y laisser vos notes d'intervention après vos tâches.
 
 **Antigravity** - *Dernière modification : Création du fichier de communication.*
+
+**Claude** - *12 Juillet 2026* : Ajout de l'envoi email silencieux des choix validés via Web3Forms (`sendChoicesByEmail` dans `script.js`). ⚠️ La constante `WEB3FORMS_ACCESS_KEY` contient un placeholder — l'utilisateur doit récupérer sa clé sur web3forms.com et la remplacer. Dépôt Git initialisé et poussé sur `https://github.com/Monsieurking5D/MyBaby.git` (branche `main`).
