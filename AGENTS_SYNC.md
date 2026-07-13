@@ -57,6 +57,8 @@ create table public.soiree_choices (
 ### Consultation des résultats
 Dashboard Supabase → Table Editor → `soiree_choices`.
 
+⚠️ Table nettoyée le 13/07 (ligne de test E2E supprimée, count = 0). **Ne pas re-valider le formulaire en prod sans intercepter le POST** (en Playwright : `page.route('**/rest/v1/soiree_choices', r => r.fulfill({status: 201}))`), sinon ça pollue les vrais choix.
+
 ### Reste à faire
 - [x] Déploiement Vercel — fait le 13/07/2026.
 
