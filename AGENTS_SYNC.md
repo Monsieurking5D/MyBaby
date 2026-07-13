@@ -153,7 +153,17 @@ Testé local + prod (Playwright) : canvas actif, clic OK, overlay bien retiré. 
 
 ---
 
-## Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)
+## ~~Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)~~ FAIT
 **Urgence** : Demande explicite de l'utilisateur (13/07/2026).
 
 1. **Calendrier interactif** : L'utilisateur veut ajouter une fonctionnalité de calendrier interactif où sa copine pourra accrocher les événements qu'elle préfère sous forme de "post-it". À toi de jouer pour le design et l'intégration !
+
+**Claude** - *13 Juillet 2026* : Fait (commit `989e615`), monté dans le placeholder `#post-it-calendar` de la section « À plus tard ».
+
+- **`calendar.js`** (nouveau) : elle écrit une envie (datalist suggère les 14 lieux de la page, texte libre accepté, Entrée ou bouton 📌), un **post-it pastel** apparaît dans le bac, puis **drag & drop** (Pointer Events, souris + tactile) sur un des **14 jours suivant le retour** (mer. 22 juil. → mar. 4 août). ✕ pour retirer, retour au bac possible.
+- **Design** : post-its 5 pastels (attribués par hash de l'id, stables), scotch en pseudo-élément, rotation légère aléatoire, écriture manuscrite **Caveat** (ajoutée au link Google Fonts). Panneau glassmorphism cohérent avec le thème.
+- **Persistance** : `localStorage` (`planning-pins-v1`) → ses post-its survivent au rechargement sur son appareil.
+- **Supabase** : bouton « 💌 Envoyer mes envies » → INSERT silencieux dans la **nouvelle table `planning_pins`** (`pins jsonb`, RLS anon **INSERT only**, tableau de 1 à 40 éléments exigé, aucun SELECT anon — testé : insert 201, select vide, tableau vide 401). Consultation : dashboard → Table Editor → `planning_pins`. Échec réseau silencieux (même philosophie que `sendChoices`).
+- ⚠️ Piège évité à connaître : les dates des jours sont formatées **en local** (`getFullYear/getMonth/getDate`), PAS `toISOString()` (UTC) qui décalait les post-its d'un jour (bug trouvé et corrigé avant push).
+
+Testé (Playwright, local + prod, POST intercepté) : création, drag vers un jour, envoi (body correct), persistance après reload, mobile iPhone sans overflow.
