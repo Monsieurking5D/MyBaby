@@ -374,6 +374,10 @@ body {
     align-items: center;
     justify-content: center;
     transition: opacity 0.8s ease, visibility 0.8s ease;
+    /* Layer compositeur dédié : le fondu de sortie ne repeint pas la page
+       en dessous à chaque frame (INP du clic sur le coeur).
+       Libéré après la transition (display:none posé par script.js). */
+    will-change: opacity;
 }
 
 .welcome-screen.hidden {

@@ -14,6 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         enterBtn.addEventListener('click', () => {
             welcomeScreen.classList.add('hidden');
         });
+        // Une fois le fondu terminé, sortir l'overlay du rendu :
+        // libère le layer compositeur (will-change) et tout coût résiduel
+        welcomeScreen.addEventListener('transitionend', (e) => {
+            if (e.propertyName === 'opacity' && welcomeScreen.classList.contains('hidden')) {
+                welcomeScreen.style.display = 'none';
+            }
+        });
     }
 
     const cards = document.querySelectorAll('.card');
