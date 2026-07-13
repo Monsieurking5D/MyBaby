@@ -89,9 +89,40 @@ body {
 
 /* Cards layout */
 .cards-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.category-section {
+    margin-bottom: 3.5rem;
+}
+
+.category-title {
+    font-family: var(--heading-font);
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.5rem;
+}
+
+.cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
+}
+
+.calendar-placeholder {
+    background: rgba(255,255,255,0.05);
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    color: var(--text-secondary);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Glassmorphism Card */
