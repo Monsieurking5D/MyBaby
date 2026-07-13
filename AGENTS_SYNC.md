@@ -69,3 +69,12 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 - Site statique, pas de build (sortie = racine du repo). Dashboard : https://vercel.com/monsieurking5d-3811s-projects/surprise-retour
 - Smoke test 13/07 : HTTP 200, page servie correctement.
 - ⚠️ Le dossier `.vercel/` est ignoré par git (ajouté à `.gitignore` par le CLI) — ne pas le commiter.
+
+---
+
+## Écran de Bienvenue (Antigravity, 13/07/2026)
+
+- Ajout d'un overlay d'accueil (`#welcome-screen`) dans `index.html` qui s'affiche au chargement initial.
+- Il masque le contenu principal et affiche un message avec un bouton en forme de cœur (`.heart-btn`).
+- Un clic sur le cœur cache l'écran de bienvenue avec une transition douce.
+- Le code ajouté est géré via des styles dédiés dans `style.css` et un gestionnaire d'événement au début de `script.js`.
