@@ -431,6 +431,75 @@ body {
     100% { transform: scale(1); }
 }
 
+/* Animation Avion */
+.flight-animation-container {
+    margin: 3rem auto;
+    position: relative;
+    width: 280px;
+    height: 120px;
+}
+
+.path-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.plane-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 2.5rem;
+    animation: flyCurve 4s ease-in-out forwards;
+}
+
+.plane {
+    display: inline-block;
+    transform: scaleX(-1); /* Pour diriger l'avion de gauche à droite */
+}
+
+@keyframes flyCurve {
+    0% {
+        transform: translate(-30px, 100px) rotate(45deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translate(120px, -20px) rotate(10deg);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(280px, 100px) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+.heart-container {
+    margin-top: -3rem;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.heart-container.hidden-heart {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.surprise-text {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .layout {

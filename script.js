@@ -2,6 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Welcome screen logic
     const welcomeScreen = document.getElementById('welcome-screen');
     const enterBtn = document.getElementById('enter-btn');
+    const heartContainer = document.getElementById('heart-container');
+
+    if (heartContainer) {
+        setTimeout(() => {
+            heartContainer.classList.remove('hidden-heart');
+        }, 3800); // Affiche le coeur à la fin du vol
+    }
 
     if (enterBtn && welcomeScreen) {
         enterBtn.addEventListener('click', () => {
