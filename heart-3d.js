@@ -78,6 +78,21 @@ if (btn) {
     btn.textContent = '';
     btn.appendChild(renderer.domElement);
 
+    // GPU instable (perte de contexte WebGL, vu sur VM/vieux drivers :
+    // peut geler le compositor et bloquer les transitions CSS) →
+    // au premier "context lost", on abandonne le 3D et on remet l'emoji.
+    renderer.domElement.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault(); // pas de tentative de restauration
+        cancelAnimationFrame(rafId);
+        renderer.domElement.remove();
+        renderer.dispose();
+        geometry.dispose();
+        material.dispose();
+        btn.classList.remove('has-3d');
+        btn.textContent = '❤️'; // l'animation CSS heartSpin reprend
+        console.warn('Coeur 3D désactivé après perte de contexte WebGL, retour emoji.');
+    }, { once: true });
+
     let rafId;
     const start = performance.now();
     const SPIN_MS = 3000;    // un tour complet
