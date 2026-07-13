@@ -22,7 +22,8 @@ if (btn) {
             antialias: true,
             alpha: true,
             powerPreference: 'low-power',
-            failIfMajorPerformanceCaveat: true
+            failIfMajorPerformanceCaveat: true,
+            preserveDrawingBuffer: true // permet le snapshot toDataURL au clic
         });
     } catch (e) {
         console.warn('Coeur 3D désactivé (pas de GPU matériel) :', e.message);
@@ -112,19 +113,26 @@ if (btn) {
     }
     rafId = requestAnimationFrame(render);
 
-    // Dès le clic : gèle la boucle de rendu (le coeur part en fondu,
-    // inutile de rendre pendant la transition — ça pèse sur l'INP)
-    btn.addEventListener('click', () => cancelAnimationFrame(rafId));
-
-    // L'overlay caché → libère le GPU
-    if (welcomeScreen) {
-        welcomeScreen.addEventListener('transitionend', (e) => {
-            if (e.propertyName === 'opacity' && welcomeScreen.classList.contains('hidden')) {
-                cancelAnimationFrame(rafId);
-                renderer.dispose();
-                geometry.dispose();
-                material.dispose();
-            }
-        });
-    }
+    // Dès le clic : remplace le canvas WebGL par un snapshot statique.
+    // Un canvas WebGL vivant dans l'overlay pendant le fondu peut geler
+    // le compositor sur certains GPU (transition bloquée, overlay qui ne
+    // part jamais — observé sur la machine de dev). L'image est identique
+    // à la dernière frame, le fondu reste visuellement seamless.
+    btn.addEventListener('click', () => {
+        cancelAnimationFrame(rafId);
+        try {
+            const img = new Image();
+            img.src = renderer.domElement.toDataURL('image/png');
+            img.width = SIZE;
+            img.height = SIZE;
+            renderer.domElement.replaceWith(img);
+        } catch (_) {
+            renderer.domElement.remove();
+            btn.classList.remove('has-3d');
+            btn.textContent = '❤️';
+        }
+        renderer.dispose();
+        geometry.dispose();
+        material.dispose();
+    }, { once: true });
 }

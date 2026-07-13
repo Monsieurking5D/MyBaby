@@ -426,7 +426,8 @@ body {
     line-height: 0;
 }
 
-.heart-btn.has-3d canvas {
+.heart-btn.has-3d canvas,
+.heart-btn.has-3d img {
     display: block;
     pointer-events: none; /* le clic passe au bouton */
 }
