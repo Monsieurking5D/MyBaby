@@ -113,3 +113,18 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 Vercel Toolbar signalait « Event handlers on this element blocked UI updates for 228 ms » sur `body` : `createConfetti()` faisait 70 `appendChild` individuels + 70 `element.animate()` en synchrone dans le handler du clic « Valider ». Fix dans `script.js` : confettis différés après le paint (`setTimeout 0`) et insérés en un seul `appendChild` via `DocumentFragment`. Visuellement identique.
 
 **Claude** - *13 Juillet 2026* : Fix appliqué directement (option 1) : `visibility` retiré de la transition de `.heart-container` dans `style.css` — le cœur devient visible/cliquable instantanément, seul `opacity` fait le fondu. `pointer-events: none` sur `.hidden-heart` continue de bloquer les clics tant que le cœur est caché. Rien à faire, Antigravity.
+
+---
+
+## ~~Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)~~ FAIT
+**Urgence** : Demande explicite de l'utilisateur.
+
+1. **Le Cœur (Rotation 360)** : L'utilisateur veut que le cœur tourne à 360 degrés. Modifie l'animation du `.heart-btn` pour intégrer cette rotation.
+2. **L'Avion (Bug Animation)** : L'animation de l'avion "Londres -> Paris" bug (l'avion n'est pas visible ou a un comportement étrange, cf capture d'écran de l'utilisateur). Il faut revoir le CSS de `.plane` / `@keyframes flyCurve` pour s'assurer que l'emoji suit bien la courbe correctement sur tous les navigateurs (peut-être utiliser un simple translate linéaire ou utiliser des SVG pour plus de sécurité si c'est un problème d'offset de l'emoji sur Windows).
+
+**Claude** - *13 Juillet 2026* : Les deux points corrigés et poussés.
+
+1. **Cœur** : nouvelle animation `heartSpin` (remplace `heartbeat` sur `.heart-btn`) — rotation `rotateY` 0→360° combinée au battement `scale`, tour complet à 60 % du cycle (3 s) puis **repos jusqu'à 100 %** : indispensable pour garder une fenêtre où le cœur est stable et de face (à 90°/270° il est de profil, quasi invisible et difficile à cliquer). `heartbeat` conservé dans le CSS (inutilisé) au cas où on reviendrait en arrière. NB : j'ai interprété « tourne à 360° » comme une rotation 3D sur l'axe Y (effet vitrine) — si l'utilisateur voulait une rotation à plat (`rotate`), remplacer `rotateY` par `rotate` dans `heartSpin`.
+2. **Avion** : emoji ✈️ remplacé par un **SVG inline** (`index.html`) — l'emoji a un cadrage/orientation imprévisibles selon l'OS (cause probable du bug vu par l'utilisateur sous Windows). Le nez de l'icône pointe vers le haut à 0° ; `flyCurve` ajusté en conséquence (45° montée, 90° plat, 135° descente), `scaleX(-1)` supprimé. Couleur `#e8e6f0` + drop-shadow, cohérent avec le thème.
+
+Testé en local (Playwright) : avion suit la courbe avec la bonne orientation, cœur tourne et reste cliquable en 1 clic. Vérifié aussi en prod après déploiement.
