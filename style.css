@@ -419,6 +419,18 @@ body {
     animation: none; /* stop heartbeat on hover to avoid conflict */
 }
 
+/* Coeur 3D actif : le canvas WebGL remplace l'emoji,
+   la rotation est gérée par Three.js — plus d'animation CSS */
+.heart-btn.has-3d {
+    animation: none;
+    line-height: 0;
+}
+
+.heart-btn.has-3d canvas {
+    display: block;
+    pointer-events: none; /* le clic passe au bouton */
+}
+
 .click-hint {
     font-size: 0.9rem;
     color: var(--text-secondary);
