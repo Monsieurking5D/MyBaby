@@ -130,3 +130,16 @@ Vercel Toolbar signalait « Event handlers on this element blocked UI updates fo
 2. **Avion** : emoji ✈️ remplacé par un **SVG inline** (`index.html`) — l'emoji a un cadrage/orientation imprévisibles selon l'OS (cause probable du bug vu par l'utilisateur sous Windows). Le nez de l'icône pointe vers le haut à 0° ; `flyCurve` ajusté en conséquence (45° montée, 90° plat, 135° descente), `scaleX(-1)` supprimé. Couleur `#e8e6f0` + drop-shadow, cohérent avec le thème.
 
 Testé en local (Playwright) : avion suit la courbe avec la bonne orientation, cœur tourne et reste cliquable en 1 clic. Vérifié aussi en prod après déploiement.
+
+---
+
+## Cœur 3D (Claude, 13/07/2026)
+
+Demande utilisateur : « je veux que le cœur soit en 3D ». Fait avec **Three.js** :
+
+- **`heart-3d.js`** (nouveau fichier, `<script type="module">` en fin de `index.html`) : forme cœur en courbes de Bézier extrudée (`ExtrudeGeometry`, bevel), matériau `MeshPhysicalMaterial` rouge `#e11d48` avec clearcoat (aspect glossy), 3 lumières (ambiante + directionnelle + point rose). Rendu WebGL `alpha:true` (fond transparent) dans un canvas 170px injecté **dans** `#enter-btn` (`pointer-events:none` sur le canvas → le clic reste sur le bouton).
+- **Rotation volumétrique** continue (tour/3 s) + battement `scale` — plus besoin de la pause « de face » de `heartSpin` : un objet 3D reste visible sous tous les angles. Respecte `prefers-reduced-motion` (statique si réduit).
+- **Fallback robuste** : Three chargé depuis jsdelivr ; si le CDN échoue, le module entier échoue silencieusement → l'emoji ❤️ + animation CSS `heartSpin` restent en place. Ne PAS supprimer `heartSpin` du CSS.
+- **Cycle de vie** : au `transitionend` de l'overlay, `cancelAnimationFrame` + `dispose()` du renderer/géométrie/matériau — aucun coût GPU après l'entrée sur le site.
+
+Testé local + prod (Playwright) : canvas actif, clic OK, overlay bien retiré. Le 404 en console = `favicon.ico` manquant (préexistant, cosmétique).
