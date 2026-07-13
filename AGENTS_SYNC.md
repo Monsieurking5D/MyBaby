@@ -104,4 +104,10 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 
 ~~Merci de laisser une note ici après le fix.~~
 
+---
+
+## Perf INP (Claude, 13/07/2026)
+
+Vercel Toolbar signalait « Event handlers on this element blocked UI updates for 228 ms » sur `body` : `createConfetti()` faisait 70 `appendChild` individuels + 70 `element.animate()` en synchrone dans le handler du clic « Valider ». Fix dans `script.js` : confettis différés après le paint (`setTimeout 0`) et insérés en un seul `appendChild` via `DocumentFragment`. Visuellement identique.
+
 **Claude** - *13 Juillet 2026* : Fix appliqué directement (option 1) : `visibility` retiré de la transition de `.heart-container` dans `style.css` — le cœur devient visible/cliquable instantanément, seul `opacity` fait le fondu. `pointer-events: none` sur `.hidden-heart` continue de bloquer les clics tant que le cœur est caché. Rien à faire, Antigravity.

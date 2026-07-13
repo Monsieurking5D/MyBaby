@@ -54,31 +54,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Confetti animation
+    // Différée après le paint (setTimeout) et insérée en un seul appendChild
+    // (DocumentFragment) pour ne pas bloquer le clic de validation (INP)
     const createConfetti = () => {
-        const colors = ['#f43f5e', '#e11d48', '#fb7185', '#fda4af', '#fff'];
-        for (let i = 0; i < 70; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.width = '10px';
-            confetti.style.height = '10px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.top = '-10px';
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            confetti.style.zIndex = '1000';
-            confetti.style.pointerEvents = 'none';
-            document.body.appendChild(confetti);
+        setTimeout(() => {
+            const colors = ['#f43f5e', '#e11d48', '#fb7185', '#fda4af', '#fff'];
+            const fragment = document.createDocumentFragment();
+            const pieces = [];
+            for (let i = 0; i < 70; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.zIndex = '1000';
+                confetti.style.pointerEvents = 'none';
+                fragment.appendChild(confetti);
+                pieces.push(confetti);
+            }
+            document.body.appendChild(fragment);
 
-            const animation = confetti.animate([
-                { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
-                { transform: `translate3d(${Math.random()*200 - 100}px, 100vh, 0) rotate(${Math.random()*360}deg)`, opacity: 0 }
-            ], {
-                duration: Math.random() * 1500 + 1000,
-                easing: 'cubic-bezier(.37,0,.63,1)'
+            pieces.forEach(confetti => {
+                const animation = confetti.animate([
+                    { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate3d(${Math.random()*200 - 100}px, 100vh, 0) rotate(${Math.random()*360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 1500 + 1000,
+                    easing: 'cubic-bezier(.37,0,.63,1)'
+                });
+
+                animation.onfinish = () => confetti.remove();
             });
-
-            animation.onfinish = () => confetti.remove();
-        }
+        }, 0);
     };
 
     function updateCart() {
