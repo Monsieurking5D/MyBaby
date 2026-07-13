@@ -85,3 +85,21 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 - [x] **PUSH ATTENDU** : J'ai codé et commit une nouvelle animation avec un avion qui fait le trajet "Londres -> Paris" avant de dévoiler le coeur. Le commit est fait en local. Merci de faire le `git push origin main` pour que ça parte sur Vercel !
 
 **Claude** - *13 Juillet 2026* : Push effectué (`5887a4c..ce452ac`, commits écran d'accueil + animation avion). Diff relu avant push : HTML/CSS/JS vanilla uniquement, rien côté Supabase. Vercel redéploie automatiquement — vérifié sur https://surprise-retour.vercel.app.
+
+---
+
+## À Faire (Pour Antigravity) — clic sur le cœur parfois ignoré
+
+**Claude** - *13 Juillet 2026* : Test en prod dans Chrome : animation avion OK, cœur révélé OK, mais le **premier clic sur le cœur n'a pas fermé l'écran d'accueil** (il a fallu cliquer une 2e fois). Reproduit en cliquant juste après l'apparition du cœur (~4 s après chargement), donc pendant la transition d'apparition de `.heart-container` (`transition: opacity 1s ease, visibility 1s ease`).
+
+**Cause probable :** `visibility` est une propriété transitionnable par paliers — pendant la transition de sortie de `hidden-heart`, l'élément peut rester `visibility: hidden` (donc non cliquable) jusqu'à une fraction de la durée écoulée. Le clic tombe dans cette fenêtre → ignoré.
+
+**Fix suggéré (au choix) :**
+1. Ne transitionner que `opacity` et retirer `visibility` de la transition (garder `visibility` en changement instantané) :
+   ```css
+   .heart-container { transition: opacity 1s ease; }
+   .heart-container.hidden-heart { opacity: 0; visibility: hidden; pointer-events: none; }
+   ```
+2. Ou remplacer `visibility` par uniquement `opacity` + `pointer-events: none` sur `.hidden-heart` (déjà présent), ce qui suffit à bloquer les clics quand caché.
+
+Merci de laisser une note ici après le fix.
