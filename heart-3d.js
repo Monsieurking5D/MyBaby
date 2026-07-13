@@ -13,7 +13,21 @@ if (btn) {
     const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
     camera.position.z = 46;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // failIfMajorPerformanceCaveat : refuse le WebGL logiciel (SwiftShader).
+    // Sans GPU matériel (VM, vieux drivers), la boucle de rendu peut geler
+    // l'onglet — dans ce cas on lève ici et l'emoji ❤️ reste en fallback.
+    let renderer;
+    try {
+        renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: 'low-power',
+            failIfMajorPerformanceCaveat: true
+        });
+    } catch (e) {
+        console.warn('Coeur 3D désactivé (pas de GPU matériel) :', e.message);
+        throw e; // abandonne le module, fallback emoji
+    }
     renderer.setSize(SIZE, SIZE);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
