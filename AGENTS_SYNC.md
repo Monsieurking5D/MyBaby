@@ -143,3 +143,10 @@ Demande utilisateur : « je veux que le cœur soit en 3D ». Fait avec **Three.j
 - **Cycle de vie** : au `transitionend` de l'overlay, `cancelAnimationFrame` + `dispose()` du renderer/géométrie/matériau — aucun coût GPU après l'entrée sur le site.
 
 Testé local + prod (Playwright) : canvas actif, clic OK, overlay bien retiré. Le 404 en console = `favicon.ico` manquant (préexistant, cosmétique).
+
+**Durcissements ajoutés ensuite** (commits `717acc5`, `4c334c1`, `36b8be6`) :
+- `failIfMajorPerformanceCaveat: true` + `powerPreference: 'low-power'` : pas de 3D sur WebGL logiciel → fallback emoji.
+- `webglcontextlost` → retour emoji immédiat (pas de tentative de restauration).
+- **Au clic sur le cœur** : la dernière frame WebGL est figée en `<img>` (`toDataURL`, d'où `preserveDrawingBuffer: true`) et le canvas est retiré + `dispose()` — le fondu de l'overlay se fait sans WebGL vivant, seamless visuellement et meilleur pour l'INP.
+
+⚠️ Note de debug pour éviter une fausse piste : si en testant vous voyez « l'overlay ne se ferme pas », « transitions gelées », « THREE: Context Lost » — vérifiez `document.visibilityState`. **Chrome gèle les transitions CSS, rAF et throttle les timers dans les onglets/fenêtres cachés ou minimisés.** Ça m'a fait diagnostiquer à tort un « GPU instable » alors que la fenêtre Chrome était simplement minimisée. Le site fonctionne parfaitement fenêtre visible (validé Playwright local + prod, desktop + mobile).
