@@ -83,7 +83,11 @@ if (btn) {
     }
     rafId = requestAnimationFrame(render);
 
-    // L'overlay caché → stoppe la boucle et libère le GPU
+    // Dès le clic : gèle la boucle de rendu (le coeur part en fondu,
+    // inutile de rendre pendant la transition — ça pèse sur l'INP)
+    btn.addEventListener('click', () => cancelAnimationFrame(rafId));
+
+    // L'overlay caché → libère le GPU
     if (welcomeScreen) {
         welcomeScreen.addEventListener('transitionend', (e) => {
             if (e.propertyName === 'opacity' && welcomeScreen.classList.contains('hidden')) {
