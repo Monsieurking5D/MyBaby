@@ -58,4 +58,14 @@ create table public.soiree_choices (
 Dashboard Supabase → Table Editor → `soiree_choices`.
 
 ### Reste à faire
-- [ ] Déploiement (Vercel évoqué) — nécessaire avant le retour du 21 juillet.
+- [x] Déploiement Vercel — fait le 13/07/2026.
+
+---
+
+## Déploiement Vercel (Claude, 13/07/2026)
+
+- **URL live** : https://surprise-retour.vercel.app
+- **Projet Vercel** : `surprise-retour` (compte `monsieurking5d-3811`), lié au repo GitHub `Monsieurking5D/MyBaby` → chaque push sur `main` redéploie automatiquement en production.
+- Site statique, pas de build (sortie = racine du repo). Dashboard : https://vercel.com/monsieurking5d-3811s-projects/surprise-retour
+- Smoke test 13/07 : HTTP 200, page servie correctement.
+- ⚠️ Le dossier `.vercel/` est ignoré par git (ajouté à `.gitignore` par le CLI) — ne pas le commiter.
