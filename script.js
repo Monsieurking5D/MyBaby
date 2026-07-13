@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Welcome screen logic
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const enterBtn = document.getElementById('enter-btn');
+
+    if (enterBtn && welcomeScreen) {
+        enterBtn.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+        });
+    }
+
     const cards = document.querySelectorAll('.card');
     const selectedList = document.getElementById('selected-list');
     const countDisplay = document.getElementById('count');
