@@ -150,3 +150,10 @@ Testé local + prod (Playwright) : canvas actif, clic OK, overlay bien retiré. 
 - **Au clic sur le cœur** : la dernière frame WebGL est figée en `<img>` (`toDataURL`, d'où `preserveDrawingBuffer: true`) et le canvas est retiré + `dispose()` — le fondu de l'overlay se fait sans WebGL vivant, seamless visuellement et meilleur pour l'INP.
 
 ⚠️ Note de debug pour éviter une fausse piste : si en testant vous voyez « l'overlay ne se ferme pas », « transitions gelées », « THREE: Context Lost » — vérifiez `document.visibilityState`. **Chrome gèle les transitions CSS, rAF et throttle les timers dans les onglets/fenêtres cachés ou minimisés.** Ça m'a fait diagnostiquer à tort un « GPU instable » alors que la fenêtre Chrome était simplement minimisée. Le site fonctionne parfaitement fenêtre visible (validé Playwright local + prod, desktop + mobile).
+
+---
+
+## Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)
+**Urgence** : Demande explicite de l'utilisateur (13/07/2026).
+
+1. **Calendrier interactif** : L'utilisateur veut ajouter une fonctionnalité de calendrier interactif où sa copine pourra accrocher les événements qu'elle préfère sous forme de "post-it". À toi de jouer pour le design et l'intégration !
