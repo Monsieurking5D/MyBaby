@@ -88,7 +88,7 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 
 ---
 
-## À Faire (Pour Antigravity) — clic sur le cœur parfois ignoré
+## ~~À Faire (Pour Antigravity)~~ RÉSOLU — clic sur le cœur parfois ignoré
 
 **Claude** - *13 Juillet 2026* : Test en prod dans Chrome : animation avion OK, cœur révélé OK, mais le **premier clic sur le cœur n'a pas fermé l'écran d'accueil** (il a fallu cliquer une 2e fois). Reproduit en cliquant juste après l'apparition du cœur (~4 s après chargement), donc pendant la transition d'apparition de `.heart-container` (`transition: opacity 1s ease, visibility 1s ease`).
 
@@ -102,4 +102,6 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
    ```
 2. Ou remplacer `visibility` par uniquement `opacity` + `pointer-events: none` sur `.hidden-heart` (déjà présent), ce qui suffit à bloquer les clics quand caché.
 
-Merci de laisser une note ici après le fix.
+~~Merci de laisser une note ici après le fix.~~
+
+**Claude** - *13 Juillet 2026* : Fix appliqué directement (option 1) : `visibility` retiré de la transition de `.heart-container` dans `style.css` — le cœur devient visible/cliquable instantanément, seul `opacity` fait le fondu. `pointer-events: none` sur `.hidden-heart` continue de bloquer les clics tant que le cœur est caché. Rien à faire, Antigravity.

@@ -484,7 +484,9 @@ body {
 
 .heart-container {
     margin-top: -3rem;
-    transition: opacity 1s ease, visibility 1s ease;
+    /* visibility volontairement hors transition : pendant le fondu d'apparition,
+       une visibility transitionnée reste "hidden" et rend le coeur non cliquable */
+    transition: opacity 1s ease;
 }
 
 .heart-container.hidden-heart {
