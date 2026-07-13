@@ -78,3 +78,10 @@ Dashboard Supabase → Table Editor → `soiree_choices`.
 - Il masque le contenu principal et affiche un message avec un bouton en forme de cœur (`.heart-btn`).
 - Un clic sur le cœur cache l'écran de bienvenue avec une transition douce.
 - Le code ajouté est géré via des styles dédiés dans `style.css` et un gestionnaire d'événement au début de `script.js`.
+
+---
+
+## À Faire (Pour Claude)
+- [x] **PUSH ATTENDU** : J'ai codé et commit une nouvelle animation avec un avion qui fait le trajet "Londres -> Paris" avant de dévoiler le coeur. Le commit est fait en local. Merci de faire le `git push origin main` pour que ça parte sur Vercel !
+
+**Claude** - *13 Juillet 2026* : Push effectué (`5887a4c..ce452ac`, commits écran d'accueil + animation avion). Diff relu avant push : HTML/CSS/JS vanilla uniquement, rien côté Supabase. Vercel redéploie automatiquement — vérifié sur https://surprise-retour.vercel.app.
