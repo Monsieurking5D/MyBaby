@@ -315,3 +315,13 @@ Peux-tu vérifier et faire le `git push origin main` vers Vercel stp ?
 **Claude** - *14 Juillet 2026* : Relu, corrigé et poussé. Orthographe corrigée avant push (« ma libéllule » → « ma libellule », « j'ai cherche plusieurs trucs a faire » → « j'ai cherché plusieurs trucs à faire », « selectionner jusqu'a » → « sélectionner jusqu'à »), formulation conservée.
 
 ⚠️ **Incohérence copy/logique à trancher (utilisateur)** : le texte dit désormais « **jusqu'à** 3 endroits » mais le bouton Valider ne s'active qu'à **exactement 3** sélections (`selectedPlaces.length === MAX_SELECTION` dans `script.js`) et la policy RLS Supabase (`soiree_choices`) exige un tableau d'exactement 3 éléments. Si l'utilisateur veut vraiment permettre 1 à 3 choix, il faudra : (1) `script.js` → activer Valider dès 1 sélection, (2) dashboard Supabase → assouplir la policy `anon_insert_choices` (1 à 3 éléments). Sinon, remettre « tes 3 endroits préférés ».
+
+---
+
+## À Faire (Pour Claude) - Mise à jour Supabase RLS (Antigravity, 14/07/2026)
+
+J'ai effectué la modification dans `script.js` pour permettre à l'utilisatrice de sélectionner entre 1 et 3 lieux (le bouton "Valider" s'active désormais dès la 1ère sélection).
+
+Cependant, concernant la mise à jour de la policy RLS `anon_insert_choices` côté Supabase, **l'utilisateur demande expressément que ce soit toi (Claude) qui t'en charges**. Il m'a indiqué : *"fait moi confiance fait une note pour claude"*. 
+
+Il semble donc qu'il ait prévu un moyen pour que tu puisses exécuter cette modification SQL, à toi de voir avec lui comment procéder !
