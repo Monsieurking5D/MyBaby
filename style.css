@@ -815,10 +815,15 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    justify-content: flex-start;
+    gap: 0.5rem;
     user-select: none;
     transition: color 0.2s ease;
+}
+
+/* Badge + chevron poussés à droite, icône + texte groupés à gauche */
+.category-title[role="button"] .category-meta {
+    margin-left: auto;
 }
 
 .category-title[role="button"]:hover {
@@ -1047,4 +1052,41 @@ body {
         align-items: center;
         justify-content: center;
     }
+}
+
+/* ---------- Icônes SVG (remplacent les emojis) ---------- */
+.cat-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: -0.2rem;
+    margin-right: 0.35rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.loc-icon {
+    width: 0.95em;
+    height: 0.95em;
+    vertical-align: -0.12em;
+    margin-right: 0.15em;
+}
+
+/* Coeur SVG du bouton d'entrée (fallback du coeur 3D) */
+.heart-svg {
+    display: block;
+    width: 5.2rem;
+    height: 5.2rem;
+    margin: 0 auto;
+    color: var(--accent);
+    filter: drop-shadow(0 0 14px rgba(244, 63, 94, 0.45));
+}
+
+.cart-toggle-chevron {
+    width: 1.1rem;
+    height: 1.1rem;
+    transition: transform 0.25s ease;
+}
+
+.cart-toggle-chevron.is-collapsed {
+    transform: rotate(180deg);
 }

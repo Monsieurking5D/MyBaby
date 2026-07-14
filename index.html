@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bon retour à Paris 💖</title>
+    <title>Bon retour à Paris</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Caveat:wght@500&display=swap" rel="stylesheet">
@@ -35,13 +35,31 @@
             <symbol id="libellule" viewBox="0 0 120 120">
                 <use href="#libellule-parts"/>
             </symbol>
+            <!-- Icônes UI (style trait, currentColor) — remplacent les emojis -->
+            <symbol id="icon-pin" viewBox="0 0 24 24">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            </symbol>
+            <symbol id="icon-heart" viewBox="0 0 24 24">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor"/>
+            </symbol>
+            <symbol id="icon-sparkles" viewBox="0 0 24 24">
+                <path d="M9.94 15.5 8.5 21.6a.5.5 0 0 1-.96 0L6.06 15.5a2 2 0 0 0-1.56-1.56L-1.6 12.5v-.96l6.1-1.48A2 2 0 0 0 6.06 8.5L7.54 2.4a.5.5 0 0 1 .96 0l1.44 6.1a2 2 0 0 0 1.56 1.56l6.1 1.44v.96l-6.1 1.48a2 2 0 0 0-1.56 1.56Z" transform="translate(4 0)" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M20 3v4M18 5h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </symbol>
+            <symbol id="icon-martini" viewBox="0 0 24 24">
+                <path d="M8 22h8M12 11v11M19 3l-7 8-7-8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </symbol>
+            <symbol id="icon-tack" viewBox="0 0 24 24">
+                <path d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </symbol>
         </defs>
     </svg>
     <!-- Welcome Screen -->
     <div id="welcome-screen" class="welcome-screen">
         <div class="welcome-content">
-            <h1 class="welcome-title fade-in-up">Bon vol de retour ✈️</h1>
-            <p class="welcome-text fade-in-up delay-1">De Londres 🇬🇧 jusqu'à moi 🇫🇷</p>
+            <h1 class="welcome-title fade-in-up">Bon vol de retour</h1>
+            <p class="welcome-text fade-in-up delay-1">De Londres jusqu'à moi</p>
             
             <div class="flight-animation-container fade-in-up delay-2">
                 <div class="plane-wrapper">
@@ -65,7 +83,7 @@
                     <path d="M60 40 C 64 62 63 80 60 108 C 57 80 56 62 60 40 Z" fill="url(#lib-body)"/>
                 </svg>
                 <p class="surprise-text">Prête pour ta surprise, ma libellule ?</p>
-                <button id="enter-btn" class="heart-btn">❤️</button>
+                <button id="enter-btn" class="heart-btn" aria-label="Découvrir la surprise"><svg class="heart-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#icon-heart"/></svg></button>
                 <p class="click-hint">Clique sur le coeur</p>
             </div>
         </div>
@@ -85,12 +103,12 @@
             <section class="cards-container fade-in-up delay-2">
                 <!-- CATEGORIE 1 -->
                 <div class="category-section">
-                    <h3 class="category-title">💖 Escapades Romantiques</h3>
+                    <h3 class="category-title"><svg class="cat-icon" aria-hidden="true" focusable="false"><use href="#icon-heart"/></svg> Escapades Romantiques</h3>
                     <div class="cards-grid">
                         <article class="card" data-place="Le Musée de la Vie Romantique" data-id="5">
                             <div class="card-content">
                                 <h2>Musée de la Vie Romantique</h2>
-                                <span class="location">📍 9e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 9e arrondissement</span>
                                 <p>Le spot romantique par excellence. Une ancienne maison d'artiste avec un jardin caché et une verrière. Idéal pour prendre un thé.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -98,7 +116,7 @@
                         <article class="card" data-place="Le Musée Rodin" data-id="6">
                             <div class="card-content">
                                 <h2>Le Musée Rodin</h2>
-                                <span class="location">📍 7e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 7e arrondissement</span>
                                 <p>Majestueux et intime. On se promène parmi les statues mondialement connues dans un magnifique jardin à la française.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -106,7 +124,7 @@
                         <article class="card" data-place="Le Petit Palais" data-id="7">
                             <div class="card-content">
                                 <h2>Le Petit Palais</h2>
-                                <span class="location">📍 8e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 8e arrondissement</span>
                                 <p>L'architecture "Belle Époque" fastueuse avec un patio central exotique époustouflant, très "esthétique" pour flâner.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -114,7 +132,7 @@
                         <article class="card" data-place="La Galerie Dior" data-id="8">
                             <div class="card-content">
                                 <h2>La Galerie Dior</h2>
-                                <span class="location">📍 8e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 8e arrondissement</span>
                                 <p>Ultra "Cottagecore" et spectaculaire avec son célèbre escalier. Le paradis de la haute couture.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -124,12 +142,12 @@
 
                 <!-- CATEGORIE 2 -->
                 <div class="category-section">
-                    <h3 class="category-title">🤯 Expériences Insolites</h3>
+                    <h3 class="category-title"><svg class="cat-icon" aria-hidden="true" focusable="false"><use href="#icon-sparkles"/></svg> Expériences Insolites</h3>
                     <div class="cards-grid">
                         <article class="card" data-place="L'Atelier des Lumières" data-id="9">
                             <div class="card-content">
                                 <h2>L'Atelier des Lumières</h2>
-                                <span class="location">📍 11e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 11e arrondissement</span>
                                 <p>Une immersion totale. On marche littéralement à l'intérieur d'œuvres d'art projetées en format géant du sol au plafond.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -137,7 +155,7 @@
                         <article class="card" data-place="Le Paradox Museum" data-id="10">
                             <div class="card-content">
                                 <h2>Le Paradox Museum</h2>
-                                <span class="location">📍 9e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 9e arrondissement</span>
                                 <p>Très fun et interactif. Idéal pour rire avec plus de 90 salles d'illusions d'optique hilarantes.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -145,7 +163,7 @@
                         <article class="card" data-place="Le Musée de l'Illusion" data-id="11">
                             <div class="card-content">
                                 <h2>Musée de l'Illusion</h2>
-                                <span class="location">📍 1er arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 1er arrondissement</span>
                                 <p>Une expérience ludique qui trompe le cerveau, avec la salle des miroirs infinis ou le tunnel Vortex.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -153,7 +171,7 @@
                         <article class="card" data-place="Le Musée des Arts Forains" data-id="12">
                             <div class="card-content">
                                 <h2>Musée des Arts Forains</h2>
-                                <span class="location">📍 12e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 12e arrondissement</span>
                                 <p>Magique et mystérieux. L'ambiance d'une fête foraine du 19ème siècle où l'on peut monter sur des manèges centenaires.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -161,7 +179,7 @@
                         <article class="card" data-place="Bourse de Commerce" data-id="13">
                             <div class="card-content">
                                 <h2>Bourse de Commerce</h2>
-                                <span class="location">📍 1er arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 1er arrondissement</span>
                                 <p>Art contemporain dans un cadre architectural monumental. Des installations immenses et très immersives.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -169,7 +187,7 @@
                         <article class="card" data-place="Le Musée Méliès" data-id="14">
                             <div class="card-content">
                                 <h2>Le Musée Méliès</h2>
-                                <span class="location">📍 12e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 12e arrondissement</span>
                                 <p>Plongée dans la magie et les débuts des effets spéciaux au cinéma. Plein d'objets curieux et d'automates fascinants.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -179,12 +197,12 @@
 
                 <!-- CATEGORIE 3 -->
                 <div class="category-section">
-                    <h3 class="category-title">🍸 Pour la Soirée</h3>
+                    <h3 class="category-title"><svg class="cat-icon" aria-hidden="true" focusable="false"><use href="#icon-martini"/></svg> Pour la Soirée</h3>
                     <div class="cards-grid">
                         <article class="card" data-place="L'Inavoué" data-id="1">
                             <div class="card-content">
                                 <h2>L'Inavoué</h2>
-                                <span class="location">📍 1er arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 1er arrondissement</span>
                                 <p>Un restaurant caché qui propose des plats à partager et de très bons cocktails. Idéal pour discuter sans être dérangé par le bruit.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -192,7 +210,7 @@
                         <article class="card" data-place="Le Très Particulier" data-id="2">
                             <div class="card-content">
                                 <h2>Le Très Particulier</h2>
-                                <span class="location">📍 18e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 18e arrondissement</span>
                                 <p>Une vibe plus élégante mais toujours dans l'intimité. Avec son petit jardin caché, niveau tranquillité il n'y a pas mieux.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -200,7 +218,7 @@
                         <article class="card" data-place="Mobster Bar" data-id="3">
                             <div class="card-content">
                                 <h2>Mobster Bar</h2>
-                                <span class="location">📍 11e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 11e arrondissement</span>
                                 <p>Un endroit immersif avec une déco années 20. Pour y entrer, il faut répondre à une énigme, ce qui rend l'expérience encore plus cool !</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -208,7 +226,7 @@
                         <article class="card" data-place="L'Arbonne Cocktail Bar" data-id="4">
                             <div class="card-content">
                                 <h2>L'Arbonne Cocktail Bar</h2>
-                                <span class="location">📍 6e arrondissement</span>
+                                <span class="location"><svg class="loc-icon" aria-hidden="true" focusable="false"><use href="#icon-pin"/></svg> 6e arrondissement</span>
                                 <p>Un petit endroit chaleureux, parfait pour boire un verre au calme et discuter tranquillement.</p>
                                 <button class="select-btn">Ajouter au programme</button>
                             </div>
@@ -218,8 +236,8 @@
 
                 <!-- CATEGORIE A PLUS TARD -->
                 <div class="category-section" id="a-plus-tard-section" style="display: none;">
-                    <h3 class="category-title">📌 À plus tard</h3>
-                    <p style="color: rgba(255, 255, 255, 0.7); text-align: center; margin-bottom: 2rem;">Garde tes autres coups de coeur pour une prochaine fois ! Écris une envie, crée un post-it et accroche-le sur un jour 📅</p>
+                    <h3 class="category-title"><svg class="cat-icon" aria-hidden="true" focusable="false"><use href="#icon-tack"/></svg> À plus tard</h3>
+                    <p style="color: rgba(255, 255, 255, 0.7); text-align: center; margin-bottom: 2rem;">Garde tes autres coups de coeur pour une prochaine fois ! Écris une envie, crée un post-it et accroche-le sur un jour</p>
                     <div class="calendar-placeholder" id="post-it-calendar">
                         <i>Le calendrier interactif arrive bientôt...</i>
                     </div>
@@ -242,7 +260,7 @@
         <div id="confirmation-modal" class="modal hidden">
             <div class="modal-content">
                 <svg class="libellule libellule-modal" aria-hidden="true" focusable="false"><use href="#libellule"/></svg>
-                <h3 id="modal-title">C'est validé ! 🎉</h3>
+                <h3 id="modal-title">C'est validé !</h3>
                 <p id="modal-desc">J'ai hâte de t'y emmener. Prépare-toi pour une soirée magique !</p>
                 <div id="final-itinerary" class="final-itinerary"></div>
                 <button id="close-modal" class="secondary-btn">Fermer</button>

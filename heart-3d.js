@@ -1,6 +1,6 @@
 // Coeur 3D (Three.js) injecté dans le bouton #enter-btn.
 // Chargé en <script type="module"> : si le CDN échoue, le module entier
-// est abandonné et l'emoji ❤️ + animation CSS restent en fallback.
+// est abandonné et le coeur SVG + animation CSS restent en fallback.
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 
 const btn = document.getElementById('enter-btn');
@@ -15,7 +15,7 @@ if (btn) {
 
     // failIfMajorPerformanceCaveat : refuse le WebGL logiciel (SwiftShader).
     // Sans GPU matériel (VM, vieux drivers), la boucle de rendu peut geler
-    // l'onglet — dans ce cas on lève ici et l'emoji ❤️ reste en fallback.
+    // l'onglet — dans ce cas on lève ici et le coeur SVG reste en fallback.
     let renderer;
     try {
         renderer = new THREE.WebGLRenderer({
@@ -74,14 +74,16 @@ if (btn) {
     rim.position.set(-7, -4, 7);
     scene.add(rim);
 
-    // Remplace l'emoji : le canvas devient le contenu du bouton
+    // Le canvas remplace le contenu du bouton (SVG coeur = fallback,
+    // conservé pour pouvoir le restaurer si le WebGL lâche)
+    const fallbackMarkup = btn.innerHTML;
     btn.classList.add('has-3d');
     btn.textContent = '';
     btn.appendChild(renderer.domElement);
 
     // GPU instable (perte de contexte WebGL, vu sur VM/vieux drivers :
     // peut geler le compositor et bloquer les transitions CSS) →
-    // au premier "context lost", on abandonne le 3D et on remet l'emoji.
+    // au premier "context lost", on abandonne le 3D et on remet le SVG.
     renderer.domElement.addEventListener('webglcontextlost', (e) => {
         e.preventDefault(); // pas de tentative de restauration
         cancelAnimationFrame(rafId);
@@ -90,8 +92,8 @@ if (btn) {
         geometry.dispose();
         material.dispose();
         btn.classList.remove('has-3d');
-        btn.textContent = '❤️'; // l'animation CSS heartSpin reprend
-        console.warn('Coeur 3D désactivé après perte de contexte WebGL, retour emoji.');
+        btn.innerHTML = fallbackMarkup; // l'animation CSS heartSpin reprend
+        console.warn('Coeur 3D désactivé après perte de contexte WebGL, retour au coeur SVG.');
     }, { once: true });
 
     let rafId;
@@ -129,7 +131,7 @@ if (btn) {
         } catch (_) {
             renderer.domElement.remove();
             btn.classList.remove('has-3d');
-            btn.textContent = '❤️';
+            btn.innerHTML = fallbackMarkup;
         }
         renderer.dispose();
         geometry.dispose();

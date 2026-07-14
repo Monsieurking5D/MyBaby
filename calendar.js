@@ -44,15 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <input id="postit-input" type="text" maxlength="60"
                    placeholder="Ton envie… (choisis un lieu ou écris librement)" list="places-list">
             <datalist id="places-list"></datalist>
-            <button id="postit-add" class="select-btn" type="button">📌 Créer un post-it</button>
+            <button id="postit-add" class="select-btn" type="button">Créer un post-it</button>
         </div>
         <div id="postit-tray" class="postit-tray" aria-label="Post-its à placer">
-            <p class="tray-hint">Tes post-its apparaissent ici — glisse-les sur un jour 💕</p>
+            <p class="tray-hint">Tes post-its apparaissent ici — glisse-les sur un jour</p>
         </div>
         <div id="postit-days" class="postit-days"></div>
         <div class="postit-send-row">
-            <button id="postit-send" class="validate-btn" type="button" disabled>💌 Envoyer mes envies</button>
-            <span id="postit-sent-msg" class="postit-sent-msg" hidden>C'est noté quelque part… 😉</span>
+            <button id="postit-send" class="validate-btn" type="button" disabled>Envoyer mes envies</button>
+            <span id="postit-sent-msg" class="postit-sent-msg" hidden>C'est noté quelque part…</span>
         </div>
     `;
 

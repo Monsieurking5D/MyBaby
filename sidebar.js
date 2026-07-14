@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.className = 'cart-toggle';
     toggle.setAttribute('aria-label', 'Replier ou déplier le programme');
     toggle.setAttribute('aria-expanded', 'true');
-    toggle.innerHTML = '<span class="cart-toggle-chevron" aria-hidden="true">❯</span><span class="cart-toggle-count" aria-hidden="true">0</span>';
+    toggle.innerHTML = '<svg class="cart-toggle-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cart-toggle-count" aria-hidden="true">0</span>';
     sidebar.appendChild(toggle);
 
     const chevron = toggle.querySelector('.cart-toggle-chevron');
@@ -27,6 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     toggle.addEventListener('click', () => {
         const collapsed = document.body.classList.toggle('cart-collapsed');
         toggle.setAttribute('aria-expanded', String(!collapsed));
-        chevron.textContent = collapsed ? '❮' : '❯';
+        chevron.classList.toggle('is-collapsed', collapsed);
     });
 });
