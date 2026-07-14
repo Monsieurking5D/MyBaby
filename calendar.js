@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!Array.isArray(pins)) pins = [];
     } catch (_) { pins = []; }
 
+    // La section est masquée jusqu'à la validation de la soirée (script.js) —
+    // mais si elle revient avec des post-its déjà créés, on la ré-affiche
+    if (pins.length > 0) {
+        const section = document.getElementById('a-plus-tard-section');
+        if (section) section.style.display = 'block';
+    }
+
     const savePins = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(pins));
     const pastelFor = (id) => PASTELS[Math.abs([...id].reduce((a, c) => a + c.charCodeAt(0), 0)) % PASTELS.length];
     const rotationFor = (id) => (([...id].reduce((a, c) => a + c.charCodeAt(0), 0) % 7) - 3) + 'deg';
