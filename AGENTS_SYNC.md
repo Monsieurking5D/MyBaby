@@ -264,3 +264,18 @@ Retour utilisateur : « sur mobile la sidebar ne fonctionne pas » — le panier
 - ⚠️ Même piège que le repli desktop : `animation: none` obligatoire sur le drawer (sinon `fade-in-up` fill forwards garde la main sur `transform`).
 
 Testé local + prod mobile : FAB visible avec compteur live (3), drawer s'ouvre/se ferme (backdrop), validation depuis le drawer → drawer fermé + modale affichée. Desktop non-régressé (FAB caché, languette et repli intacts).
+
+---
+
+## Écran d'accueil enrichi (Claude, 14/07/2026)
+
+Demande utilisateur : améliorer la page d'accueil. Fait (commit `0cd19cc`), CSS pur, zéro JS ajouté :
+
+- **Ciel étoilé** : 2 couches `.stars` (un seul pseudo-élément chacune, ~18 étoiles par couche en `box-shadow`, positions en vw/vh) qui scintillent en alternance (`twinkle`, opacity seule → compositor-friendly). Quelques étoiles teintées rose/lavande.
+- **Villes** : labels `LONDRES` / `PARIS` (uppercase, letter-spacing) aux extrémités de l'arc de vol, points lumineux roses avec glow.
+- **Titre** : dégradé blanc → rose via `background-clip: text`.
+- **Halo** : radial rose très doux derrière `.welcome-content` (::before, z-index -1).
+- **Hint** « Clique sur le coeur » : pulsation d'opacité 2.4s.
+- `prefers-reduced-motion` coupe étoiles et pulsation.
+
+Testé local (desktop + mobile, pas d'overflow, clic coeur → fermeture OK) + déployé.
