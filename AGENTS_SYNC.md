@@ -194,3 +194,16 @@ Demande utilisateur : « Notre Programme » (le panier) en sidebar à droite. Fa
 - z-index sidebar = 50 (sous la modale 100, les confettis 1000 et l'overlay d'accueil 2000).
 
 Testé local 1440px (fixe au scroll, sélections visibles, aucun chevauchement avec les cartes ni le calendrier) + prod mobile.
+
+---
+
+## Accordéons de catégories (Claude, 14/07/2026)
+
+Demande utilisateur : menus déroulants par catégorie pour éviter le scroll infini sur mobile. Fait (commit `60daf12`) :
+
+- **`accordion.js`** (nouveau) : chaque `.category-section` (sauf `#a-plus-tard-section`) devient repliable derrière son titre — clic ou clavier (Enter/Espace, `aria-expanded`), badge « N lieux », chevron animé. Le wrapping du contenu se fait au runtime : **aucune modification du markup des cartes** ni de la logique `selectedPlaces`.
+- **Comportement** : replié par défaut sur mobile (≤ 992px, hauteur de page ~1450px au lieu de plusieurs milliers), tout ouvert par défaut sur desktop. Toggle disponible partout.
+- **Animation** : `grid-template-rows 1fr → 0fr` sur `.category-body` (compositor-friendly, pas de max-height magique).
+- Si vous ajoutez une catégorie dans le HTML : rien à faire, l'accordéon se monte tout seul (il suffit d'un `.category-title` dans la section).
+
+Testé local + prod : mobile 3 catégories repliées/ouvrables, sélection intacte, pas d'overflow ; desktop tout ouvert.
