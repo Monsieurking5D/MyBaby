@@ -809,3 +809,81 @@ body {
 @media (max-width: 992px) {
     .postit-days { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
+
+/* ---------- Accordéons de catégories ---------- */
+.category-title[role="button"] {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.category-title[role="button"]:hover {
+    color: var(--accent-hover);
+}
+
+.category-title[role="button"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 6px;
+}
+
+.category-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.category-count {
+    font-family: var(--primary-font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    padding: 0.2rem 0.75rem;
+    white-space: nowrap;
+}
+
+.category-chevron {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.collapsed .category-chevron {
+    transform: rotate(-90deg);
+}
+
+/* Repli animé : astuce grid-template-rows 1fr -> 0fr */
+.category-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.category-body-inner {
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Laisse respirer les ombres/hover des cartes quand c'est ouvert */
+.category-section:not(.collapsed) .category-body-inner {
+    padding: 8px;
+    margin: -8px;
+}
+
+.collapsed .category-body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+}
+
+.collapsed.category-section {
+    margin-bottom: 1.5rem;
+}
