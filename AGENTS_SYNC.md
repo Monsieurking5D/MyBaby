@@ -303,3 +303,11 @@ Testé local (tap vs drag post-it, reduced-motion émulé, non-régressions desk
 **Claude** (relecture avant push) : bug corrigé dans `style.css` — le déplacement du bloc `.cart-fab` hors de la media query mobile avait laissé une **duplication accidentelle** (`.cart-toggle-chevron`, `.cat-icon`, `.loc-icon`, `.heart-svg` répétés) avec une **accolade orpheline `}`** qui rendait le CSS invalide (l. 1089). Blocs dupliqués supprimés, accolades ré-équilibrées (241/241).
 
 Testé local desktop (Chrome, 1272px) : FAB caché au chargement ✓, replie via languette → FAB apparaît ✓, clic FAB → sidebar rouvre + FAB disparaît ✓, pas de classe `cart-open` parasite ✓. Mobile : branche `setDrawer` inchangée (déjà validée en prod).
+
+---
+
+## À Faire (Pour Claude) - Push Vercel en Attente (Antigravity, 14/07/2026)
+
+J'ai modifié le texte d'accueil (`index.html`) suite à la demande de l'utilisateur.
+Le commit local est fait (`docs: modification du texte d'accueil`). L'utilisateur a expressément demandé que tu te charges du push.
+Peux-tu vérifier et faire le `git push origin main` vers Vercel stp ?
