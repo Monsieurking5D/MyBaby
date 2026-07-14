@@ -1318,3 +1318,111 @@ body {
         animation: none;
     }
 }
+
+/* ---------- Apple design pass (skill apple-design) ---------- */
+
+/* §1 Response : feedback instantané au pointer-down, pas au release */
+.select-btn:active,
+.validate-btn:not([disabled]):active,
+.postit-remove:active,
+.remove-item:active,
+.secondary-btn:active,
+.cart-toggle:active,
+.postit-note:active {
+    transform: scale(0.97);
+    transition: transform 100ms ease-out;
+}
+
+.heart-btn:active {
+    transform: scale(0.94);
+    transition: transform 100ms ease-out;
+    animation: none;
+}
+
+/* §15 Typo : tracking négatif + leading serré sur les grands corps,
+   jamais une seule valeur pour toutes les tailles */
+.hero h1,
+.welcome-title {
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+}
+
+.category-title,
+.modal-content h3,
+.cart-glass h2 {
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+}
+
+/* §12 Matériaux : saturation derrière le verre + arête lumineuse
+   (la lumière accroche le bord supérieur du matériau) */
+.card,
+.cart-glass,
+.postit-board {
+    border-top-color: rgba(255, 255, 255, 0.18);
+}
+
+@media (min-width: 993px) {
+    .cart-container {
+        backdrop-filter: blur(16px) saturate(160%);
+        -webkit-backdrop-filter: blur(16px) saturate(160%);
+    }
+}
+
+@media (max-width: 992px) {
+    .cart-container {
+        backdrop-filter: blur(16px) saturate(160%);
+        -webkit-backdrop-filter: blur(16px) saturate(160%);
+    }
+}
+
+/* §14 Reduced motion : le drawer/panneau se cross-fade au lieu de glisser */
+@media (prefers-reduced-motion: reduce) {
+    .cart-container {
+        transition: opacity 200ms ease;
+    }
+
+    body.cart-collapsed .cart-container,
+    body:not(.cart-open) .cart-container {
+        opacity: 0;
+    }
+
+    @media (min-width: 993px) {
+        body:not(.cart-collapsed) .cart-container {
+            opacity: 1;
+            transform: none;
+        }
+        body.cart-collapsed .cart-container {
+            transform: none;
+            pointer-events: none;
+        }
+    }
+
+    @media (max-width: 992px) {
+        body.cart-open .cart-container {
+            opacity: 1;
+            transform: none;
+        }
+        body:not(.cart-open) .cart-container {
+            transform: none;
+            pointer-events: none;
+        }
+    }
+}
+
+/* §14 Reduced transparency : surfaces givrées -> quasi solides */
+@media (prefers-reduced-transparency: reduce) {
+    .card,
+    .cart-glass,
+    .postit-board {
+        background: rgba(15, 23, 42, 0.96);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .cart-container {
+        background: rgba(15, 23, 42, 0.98) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}

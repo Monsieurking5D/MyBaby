@@ -128,23 +128,39 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addPin(); });
 
     // ---------- Drag (Pointer Events, souris + tactile) ----------
+    // Deux détails "fluid interfaces" (skill apple-design) :
+    // - le ghost respecte le point de saisie (pas de recentrage sous le doigt)
+    // - seuil de 8px avant de démarrer le drag : un simple tap ne crée
+    //   pas de ghost furtif et reste disponible pour le bouton ✕
+    const DRAG_THRESHOLD = 8;
+
     function attachDrag(note, pin) {
         note.addEventListener('pointerdown', (e) => {
             if (e.target.closest('.postit-remove')) return;
             e.preventDefault();
-            const ghost = note.cloneNode(true);
             const rect = note.getBoundingClientRect();
-            ghost.classList.add('postit-ghost');
-            ghost.style.width = rect.width + 'px';
-            ghost.style.left = (e.clientX - rect.width / 2) + 'px';
-            ghost.style.top = (e.clientY - rect.height / 2) + 'px';
-            document.body.appendChild(ghost);
-            note.classList.add('postit-dragging');
-
+            const grabX = e.clientX - rect.left; // où le doigt a saisi le post-it
+            const grabY = e.clientY - rect.top;
+            const startX = e.clientX;
+            const startY = e.clientY;
+            let ghost = null;
             let hovered = null;
+
+            const startGhost = () => {
+                ghost = note.cloneNode(true);
+                ghost.classList.add('postit-ghost');
+                ghost.style.width = rect.width + 'px';
+                note.classList.add('postit-dragging');
+                document.body.appendChild(ghost);
+            };
+
             const move = (ev) => {
-                ghost.style.left = (ev.clientX - rect.width / 2) + 'px';
-                ghost.style.top = (ev.clientY - rect.height / 2) + 'px';
+                if (!ghost) {
+                    if (Math.hypot(ev.clientX - startX, ev.clientY - startY) < DRAG_THRESHOLD) return;
+                    startGhost();
+                }
+                ghost.style.left = (ev.clientX - grabX) + 'px';
+                ghost.style.top = (ev.clientY - grabY) + 'px';
                 ghost.style.display = 'none';
                 const under = document.elementFromPoint(ev.clientX, ev.clientY);
                 ghost.style.display = '';
@@ -157,10 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.removeEventListener('pointermove', move);
                 document.removeEventListener('pointerup', up);
                 document.removeEventListener('pointercancel', up);
+                if (!ghost) return; // tap sans drag : rien à faire
                 ghost.remove();
                 note.classList.remove('postit-dragging');
                 if (hovered) hovered.classList.remove('postit-day-hover');
-                ghost.style.display = 'none';
                 const under = document.elementFromPoint(ev.clientX, ev.clientY);
                 const cell = under && under.closest('.postit-day');
                 const overTray = under && under.closest('.postit-tray');
