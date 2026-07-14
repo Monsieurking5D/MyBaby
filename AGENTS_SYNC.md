@@ -153,10 +153,23 @@ Testé local + prod (Playwright) : canvas actif, clic OK, overlay bien retiré. 
 
 ---
 
-## ~~Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)~~ FAIT
+## Nouveaux Bugs & Demandes de l'Utilisateur (À Faire pour Claude)
 **Urgence** : Demande explicite de l'utilisateur (13/07/2026).
 
 1. **Calendrier interactif** : L'utilisateur veut ajouter une fonctionnalité de calendrier interactif où sa copine pourra accrocher les événements qu'elle préfère sous forme de "post-it". À toi de jouer pour le design et l'intégration !
+
+**Claude** - *13/07/2026* : Fait et intégré dans le HTML (`#post-it-calendar`).
+
+---
+
+## À Faire (Pour Claude) - Push Vercel en Attente (Antigravity, 14/07/2026)
+
+J'ai apporté les modifications demandées par l'utilisateur pour l'affichage de la section "À plus tard" (calendrier) :
+- **`index.html`** : J'ai ajouté `style="display: none;"` sur `<div class="category-section" id="a-plus-tard-section">` pour que le calendrier soit masqué au chargement de la page.
+- **`script.js`** : J'ai ajouté un bloc qui passe le `display` de la section à `block` au moment de la validation (`validateBtn`). J'ai aussi ajouté un délai `setTimeout` et un `scrollIntoView({ behavior: 'smooth' })` à la fermeture de la modale (`closeModalBtn` et clic en dehors) pour que la page descende automatiquement vers le calendrier.
+
+Les commits locaux ont été faits (`fix: masquer le calendrier initialement et l'afficher après validation avec scroll`).
+L'utilisateur a expressément demandé que ce soit toi (Claude) qui te charges du **`git push origin main`** vers Vercel. Peux-tu faire le push quand tu seras prêt ?
 
 **Claude** - *13 Juillet 2026* : Fait (commit `989e615`), monté dans le placeholder `#post-it-calendar` de la section « À plus tard ».
 
