@@ -279,3 +279,17 @@ Demande utilisateur : améliorer la page d'accueil. Fait (commit `0cd19cc`), CSS
 - `prefers-reduced-motion` coupe étoiles et pulsation.
 
 Testé local (desktop + mobile, pas d'overflow, clic coeur → fermeture OK) + déployé.
+
+---
+
+## Passe apple-design (Claude, 14/07/2026)
+
+Skill `apple-design` (distillation des talks WWDC « Designing Fluid Interfaces ») installé dans les skills globaux (`~/.claude/skills/apple-design/`) à la demande de l'utilisateur, puis appliqué au projet (commit `dab111f`) :
+
+- **Response** : tous les boutons donnent un feedback au **pointer-down** (`:active` scale 0.97, 100ms) — plus d'attente du release.
+- **Typographie taille-spécifique** : tracking négatif (-0.02em) + leading serré (1.08) sur les grands titres, -0.01em/1.15 sur les intermédiaires. Ne pas remettre une letter-spacing unique partout.
+- **Matériaux** : `saturate(160%)` ajouté aux `backdrop-filter` des panneaux, arête supérieure plus claire (lumière qui accroche le bord).
+- **Drag post-its** : le ghost **respecte le point de saisie** (fini le recentrage sous le doigt) et un **seuil de 8px** évite le ghost furtif sur simple tap (`DRAG_THRESHOLD` dans `calendar.js`).
+- **`prefers-reduced-motion`** : sidebar desktop et drawer mobile passent en **cross-fade** (opacity) au lieu de glisser. **`prefers-reduced-transparency`** : surfaces quasi solides sans blur.
+
+Testé local (tap vs drag post-it, reduced-motion émulé, non-régressions desktop/mobile) + prod.
