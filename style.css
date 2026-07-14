@@ -1090,3 +1090,118 @@ body {
 .cart-toggle-chevron.is-collapsed {
     transform: rotate(180deg);
 }
+
+/* ---------- Drawer panier mobile ---------- */
+.cart-fab,
+.cart-backdrop {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    /* Le panier devient un drawer fixe qui glisse depuis la droite */
+    .cart-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        height: 100dvh;
+        width: min(85vw, 340px);
+        background: rgba(15, 23, 42, 0.94);
+        border-left: 1px solid var(--card-border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 2rem 1.5rem;
+        overflow-y: auto;
+        z-index: 60;
+        transform: translateX(100%);
+        transition: transform 0.35s ease;
+        /* même piège que le repli desktop : fade-in-up (fill forwards)
+           garderait la main sur transform */
+        animation: none;
+        opacity: 1;
+    }
+
+    body.cart-open .cart-container {
+        transform: translateX(0);
+    }
+
+    .cart-container .cart-glass {
+        position: static;
+        background: none;
+        border: none;
+        padding: 0;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    /* Titre + libellule sur une seule ligne dans le drawer */
+    .cart-container .cart-glass h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.9rem;
+    }
+
+    /* Fond assombri, tap pour fermer */
+    .cart-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 55;
+    }
+
+    body.cart-open .cart-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Bouton flottant coeur + compteur */
+    .cart-fab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 1.25rem;
+        right: 1.25rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: none;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
+        z-index: 65;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .cart-fab:active {
+        transform: scale(0.94);
+    }
+
+    .cart-fab-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .cart-fab-count {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #fff;
+        color: var(--accent-hover);
+        font-size: 0.75rem;
+        font-weight: 600;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+}
