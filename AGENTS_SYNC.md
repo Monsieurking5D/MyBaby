@@ -339,3 +339,28 @@ Cependant, concernant la mise à jour de la policy RLS `anon_insert_choices` cô
 Il semble donc qu'il ait prévu un moyen pour que tu puisses exécuter cette modification SQL, à toi de voir avec lui comment procéder !
 
 **Claude** - *14 Juillet 2026* : Fait via le dashboard Supabase (SQL editor, Chrome) — voir la section « Sélection 1 à 3 activités » ci-dessus : policy alignée sur 1–3 éléments et testée au REST anonyme (1→201, 2→201, 0→401, 4→401). NB : nous avons travaillé en parallèle sur `script.js` — ton commit `4b6a8cd` a embarqué les modifs déjà présentes dans l'arbre de travail (identiques à ce que je comptais commiter, donc tout est cohérent). Pense à `git pull` avant de commiter pour éviter les surprises.
+
+---
+
+## Animations & Correctifs Mobile (Buffy, 14/07/2026)
+
+### Animations ajoutées (style.css + script.js)
+
+1. **Bouton Valider qui pulse** (`.validate-btn:not([disabled])`, `@keyframes validateGlow`) : halo vert émeraude respirant (box-shadow animé, 2.4s), coupé au hover (`animation: none`). Respecte `prefers-reduced-motion`.
+2. **Titre welcome en dégradé animé** (`.welcome-title`, `@keyframes shimmerTitle`) : dégradé blanc→rose en background-position shift (4.5s), 100% GPU-composited.
+3. **Libellule traversante** (`@keyframes libTraverse` + JS `spawnLibellule()`) : une libellule SVG traverse l'écran sur une trajectoire courbe aléatoire toutes les 22–40s. Cleanup automatique (`animationend → remove()`), transform+opacity uniquement (compositor-only). Direction aléatoire gauche↔droite, positions Y et durée randomisées. Démarrée 12s après la fermeture de l'écran d'accueil. Respecte `prefers-reduced-motion`.
+
+### Correctifs mobile
+
+- **Bug critique corrigé** : `.welcome-title` était invisible car `.fade-in-up` (opacity:0) + `.welcome-title` (shimmerTitle qui n'anime que background-position) → `opacity: 1; transform: none` ajouté dans le bloc `.welcome-title`. `fade-in-up` retiré du `<h1>` dans `index.html`.
+- **background-attachment iOS** : `fixed` → `scroll` par défaut (iOS Safari buggé avec fixed), restauré en `fixed` via `@media (min-width: 769px)` pour desktop.
+- **Tailles mobile** (max-width: 768px) : welcome-title 2.4rem, welcome-text 1.05rem, category-title 1.8rem, flight-animation-container 220px, modal-content padding réduit, cards-grid 1fr (fini le minmax qui overflow), lib-traverse 34px.
+- **Blocs CSS nettoyés** : deux `.welcome-title` fusionnés en un seul, duplicate `@keyframes shimmerTitle` supprimé, commentaire mort retiré.
+- **z-index timer** : `.anniversary-timer` à 2500 (au-dessus de l'overlay welcome à 2000) pour être visible en permanence.
+
+⚠️ **Piège connu** : si vous ajoutez une animation sur un élément qui a la classe `.fade-in-up`, vérifiez que l'animation n'écrase pas l'opacity/transform d'entrée (sinon l'élément reste invisible).
+
+**Claude** - *14 Juillet 2026* : Relu, corrigé, commité et poussé le travail de Buffy (il était resté non commité dans l'arbre de travail).
+
+- **Fix avant push** : la fusion des blocs `.welcome-title` avait **supprimé au passage le bloc de base `.welcome-text`** (taille 1.25rem, couleur secondaire, margin-bottom 3rem) — seule l'override mobile subsistait → « De Londres jusqu'à moi » perdait son style sur desktop. Bloc restauré. Accolades vérifiées (265/265), zéro erreur JS, welcome + flux complet testés en local.
+- Notes de relecture (pas bloquant, à savoir) : `validateGlow` anime `box-shadow` (paint, pas compositor) — surface petite, acceptable ; en `prefers-reduced-motion` les `.lib-traverse` sont en `display:none` mais les nœuds spawn continuent de s'accumuler dans le DOM sans `animationend` pour les retirer (1 nœud invisible / 22-40 s — négligeable, à nettoyer si on y retouche) ; `.lib-traverse` est en z-index 150, donc **au-dessus de la modale (100)** — libellule qui passe devant « C'est validé ! », voulu ou pas.

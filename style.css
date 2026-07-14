@@ -22,11 +22,18 @@ body {
     font-family: var(--primary-font);
     color: var(--text-primary);
     background: linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2));
-    background-attachment: fixed;
+    background-attachment: scroll; /* iOS Safari : fixed = buggé */
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
     line-height: 1.6;
+}
+
+/* Desktop : le fond fixe (parallaxe) est restauré quand iOS n'est pas concerné */
+@media (min-width: 769px) {
+    body {
+        background-attachment: fixed;
+    }
 }
 
 /* Background soft animation */
@@ -280,11 +287,18 @@ body {
 .validate-btn:not([disabled]) {
     opacity: 1;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    animation: validateGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes validateGlow {
+    0%, 100% { box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); }
+    50%      { box-shadow: 0 4px 32px rgba(16, 185, 129, 0.85), 0 0 64px rgba(16, 185, 129, 0.18); }
 }
 
 .validate-btn:not([disabled]):hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    box-shadow: 0 6px 36px rgba(16, 185, 129, 0.9), 0 0 72px rgba(16, 185, 129, 0.25);
+    animation: none;
 }
 
 /* Modal */
@@ -427,6 +441,22 @@ body {
     color: #fff;
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    /* fade-in-up écrase l'opacité via la classe .fade-in-up : on restaure */
+    opacity: 1;
+    transform: none;
+    /* Dégradé blanc → rose animé */
+    background: linear-gradient(115deg, #fff 25%, #fda4af 55%, #fff 80%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.01em;
+    animation: shimmerTitle 4.5s ease-in-out infinite;
+}
+
+@keyframes shimmerTitle {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
 }
 
 .welcome-text {
@@ -622,6 +652,27 @@ body {
     }
     .container {
         padding: 2rem 1.5rem;
+    }
+    .welcome-title {
+        font-size: 2.4rem;
+    }
+    .welcome-text {
+        font-size: 1.05rem;
+    }
+    .category-title {
+        font-size: 1.8rem;
+    }
+    .flight-animation-container {
+        width: 220px;
+        height: 100px;
+        margin: 2rem auto;
+    }
+    .modal-content {
+        padding: 2rem 1.5rem;
+    }
+    /* Cartes : 1 colonne même sur tout petit écran, pas d'overflow */
+    .cards-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -964,13 +1015,54 @@ body {
 @media (max-width: 768px) {
     .libellule-hero { width: 52px; height: 52px; }
     .libellule-board { width: 42px; height: 42px; top: -20px; }
+    .lib-traverse { width: 34px; height: 34px; }
+    .anniversary-timer {
+        top: 10px;
+        left: 10px;
+        font-size: 1rem;
+        padding: 6px 10px;
+    }
+}
+
+/* ---------- Libellule traversante ---------- */
+.lib-traverse {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 56px;
+    height: 56px;
+    z-index: 150;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.45));
+    animation: libTraverse var(--traverse-duration, 9s) cubic-bezier(0.42, 0, 0.58, 1) forwards;
+}
+
+@keyframes libTraverse {
+    0% {
+        transform: translate3d(var(--traverse-start-x, -80px), var(--traverse-y0, 25vh), 0) rotate(var(--traverse-start-rot, -12deg));
+        opacity: 0;
+    }
+    5%  { opacity: 0.8; }
+    45% {
+        transform: translate3d(50vw, var(--traverse-ymid, 35vh), 0) rotate(0deg);
+        opacity: 0.8;
+    }
+    95% { opacity: 0.8; }
+    100% {
+        transform: translate3d(var(--traverse-end-x, calc(100vw + 80px)), var(--traverse-y1, 55vh), 0) rotate(var(--traverse-end-rot, 12deg));
+        opacity: 0;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .libellule,
-    .libellule-welcome .lib-wings {
+    .libellule-welcome .lib-wings,
+    .lib-traverse,
+    .welcome-title,
+    .validate-btn:not([disabled]) {
         animation: none;
     }
+    .lib-traverse { display: none; }
 }
 
 /* ---------- Sidebar rétractable ---------- */
@@ -1277,15 +1369,6 @@ body {
     z-index: -1;
 }
 
-/* Titre en dégradé blanc → rose */
-.welcome-title {
-    background: linear-gradient(115deg, #fff 40%, #fda4af 85%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 0.01em;
-}
-
 /* Villes aux extrémités du trajet, avec point lumineux */
 .city {
     position: absolute;
@@ -1458,11 +1541,4 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 768px) {
-    .anniversary-timer {
-        top: 10px;
-        left: 10px;
-        font-size: 1rem;
-        padding: 6px 10px;
-    }
-}
+

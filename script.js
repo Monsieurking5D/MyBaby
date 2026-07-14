@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (enterBtn && welcomeScreen) {
         enterBtn.addEventListener('click', () => {
             welcomeScreen.classList.add('hidden');
+            startLibTraverse();  // Lance les libellules traversantes une fois l'écran d'accueil fermé
         });
         // Une fois le fondu terminé, sortir l'overlay du rendu :
         // libère le layer compositeur (will-change) et tout coût résiduel
@@ -221,4 +222,60 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // ───── Libellule traversante ─────
+    let libTimer = null;
+
+    function spawnLibellule() {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 120 120');
+        svg.classList.add('lib-traverse');
+
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttribute('href', '#libellule');
+        svg.appendChild(use);
+
+        // Trajectoire aléatoire
+        const fromRight = Math.random() > 0.5;
+        const y0 = Math.random() * 60 + 12;   // 12–72 vh
+        const y1 = Math.random() * 50 + 20;   // 20–70 vh
+        const yMid = (y0 + y1) / 2 + (Math.random() * 34 - 17); // arc ±17vh
+        const duration = Math.random() * 5000 + 7000; // 7–12 s
+
+        if (fromRight) {
+            svg.style.setProperty('--traverse-start-x', 'calc(100vw + 80px)');
+            svg.style.setProperty('--traverse-end-x', '-80px');
+            svg.style.setProperty('--traverse-start-rot', '12deg');
+            svg.style.setProperty('--traverse-end-rot', '-12deg');
+        } else {
+            svg.style.setProperty('--traverse-start-x', '-80px');
+            svg.style.setProperty('--traverse-end-x', 'calc(100vw + 80px)');
+            svg.style.setProperty('--traverse-start-rot', '-12deg');
+            svg.style.setProperty('--traverse-end-rot', '12deg');
+        }
+
+        svg.style.setProperty('--traverse-y0', y0 + 'vh');
+        svg.style.setProperty('--traverse-y1', y1 + 'vh');
+        svg.style.setProperty('--traverse-ymid', yMid + 'vh');
+        svg.style.setProperty('--traverse-duration', duration + 'ms');
+
+        svg.addEventListener('animationend', () => svg.remove());
+        document.body.appendChild(svg);
+    }
+
+    function scheduleNextLibellule() {
+        const delay = Math.random() * 18000 + 22000; // 22–40 s
+        libTimer = setTimeout(() => {
+            spawnLibellule();
+            scheduleNextLibellule();
+        }, delay);
+    }
+
+    function startLibTraverse() {
+        // Première libellule après 12s, puis en boucle
+        libTimer = setTimeout(() => {
+            spawnLibellule();
+            scheduleNextLibellule();
+        }, 12000);
+    }
 });
