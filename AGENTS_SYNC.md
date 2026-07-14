@@ -222,3 +222,18 @@ Demande utilisateur (via /ui-ux-pro-max) : embellir le site avec « ma libellule
 - Si vous ajoutez un placement : `<svg class="libellule ..."><use href="#libellule"/></svg>` + une classe de taille dans `style.css`.
 
 Testé local (welcome/héro/modale/board/sidebar screenshots) + prod mobile (5 instances, pas d'overflow).
+
+---
+
+## Typo + sidebar rétractable (Claude, 14/07/2026)
+
+Deux demandes utilisateur, faites (commit `4e655d8`) :
+
+1. **Polices** : Playfair Display/Inter → **Cormorant Garamond** (titres, plus délicat et romantique) + **Montserrat** (texte). Caveat conservée pour les post-its. L'œil de Cormorant est plus petit → tailles de titres relevées (héro/welcome 3.9rem, catégories 2.3rem, cartes 1.7rem, panier 2.1rem, modale 2.3rem). Les variables `--heading-font`/`--primary-font` restent le point unique de vérité.
+2. **Sidebar rétractable** (`sidebar.js`, nouveau) : languette glass accrochée au bord gauche de la sidebar (chevron + compteur d'activités mis à jour en live par MutationObserver sur `#count`). Clic → `body.cart-collapsed` : panneau en `translateX(100%)`, contenu recentré pleine largeur, languette reste visible au bord. Desktop uniquement (masquée ≤ 992px), `aria-expanded` tenue à jour.
+
+⚠️ **Deux pièges rencontrés, à connaître** :
+- `.cart-container` porte l'animation d'entrée `fade-in-up` (fill forwards) : **une animation garde la main sur `transform` pour toujours** et bloque tout repli → `animation: none;` posé dans l'état replié. Si vous animez un élément qui a `fade-in-up`, pensez-y.
+- La languette dépasse du conteneur (`left: -44px`) : `overflow-y: auto` sur `.cart-container` la clippait (invisible au hit-test) → le scroll interne est porté par `.cart-glass`, le conteneur est en `overflow: visible`.
+
+Testé local + prod : repli/dépli desktop OK, polices servies, mobile inchangé (languette masquée, pas d'overflow).
