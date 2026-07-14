@@ -887,3 +887,83 @@ body {
 .collapsed.category-section {
     margin-bottom: 1.5rem;
 }
+
+/* ---------- Libellule mascotte ---------- */
+.libellule {
+    display: inline-block;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.35));
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+/* Vol flottant doux (transform seul : compositor-friendly) */
+@keyframes libFloat {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%      { transform: translateY(-9px) rotate(5deg); }
+}
+
+/* Battement d'ailes (welcome uniquement, SVG inline) */
+@keyframes libFlap {
+    0%, 100% { transform: scaleX(1); }
+    50%      { transform: scaleX(0.72); }
+}
+
+.libellule-welcome {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.25rem;
+    animation: libFloat 3.5s ease-in-out infinite;
+}
+
+.libellule-welcome .lib-wings {
+    transform-origin: 60px 50px;
+    transform-box: view-box;
+    animation: libFlap 0.55s ease-in-out infinite;
+}
+
+.libellule-hero {
+    width: 72px;
+    height: 72px;
+    animation: libFloat 4s ease-in-out infinite;
+}
+
+.libellule-cart {
+    width: 34px;
+    height: 34px;
+    vertical-align: -8px;
+    animation: libFloat 4.5s ease-in-out infinite;
+}
+
+.libellule-modal {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 0.5rem;
+    animation: libFloat 3.5s ease-in-out infinite;
+}
+
+/* Posée sur le coin du tableau de post-its */
+.postit-board {
+    position: relative;
+}
+
+.libellule-board {
+    position: absolute;
+    top: -26px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+    transform: rotate(18deg);
+    animation: libFloat 5s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+    .libellule-hero { width: 52px; height: 52px; }
+    .libellule-board { width: 42px; height: 42px; top: -20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .libellule,
+    .libellule-welcome .lib-wings {
+        animation: none;
+    }
+}

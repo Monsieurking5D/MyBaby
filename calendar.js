@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     host.classList.remove('calendar-placeholder');
     host.classList.add('postit-board');
     host.innerHTML = `
+        <svg class="libellule libellule-board" aria-hidden="true" focusable="false"><use href="#libellule"/></svg>
         <div class="postit-create">
             <input id="postit-input" type="text" maxlength="60"
                    placeholder="Ton envie… (choisis un lieu ou écris librement)" list="places-list">

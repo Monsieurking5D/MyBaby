@@ -8,8 +8,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
+    <!-- Libellule mascotte : défs partagées, réutilisée via <use href="#libellule"> -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="lib-wing" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#c4b5fd" stop-opacity="0.9"/>
+                <stop offset="0.6" stop-color="#f9a8d4" stop-opacity="0.75"/>
+                <stop offset="1" stop-color="#f43f5e" stop-opacity="0.5"/>
+            </linearGradient>
+            <linearGradient id="lib-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f43f5e"/>
+                <stop offset="1" stop-color="#be123c"/>
+            </linearGradient>
+            <g id="libellule-parts">
+                <ellipse cx="36" cy="46" rx="28" ry="11" fill="url(#lib-wing)" transform="rotate(-24 36 46)"/>
+                <ellipse cx="84" cy="46" rx="28" ry="11" fill="url(#lib-wing)" transform="rotate(24 84 46)"/>
+                <ellipse cx="40" cy="66" rx="23" ry="9" fill="url(#lib-wing)" opacity="0.8" transform="rotate(-40 40 66)"/>
+                <ellipse cx="80" cy="66" rx="23" ry="9" fill="url(#lib-wing)" opacity="0.8" transform="rotate(40 80 66)"/>
+                <circle cx="60" cy="32" r="8" fill="url(#lib-body)"/>
+                <circle cx="57" cy="29" r="1.8" fill="#fff" opacity="0.85"/>
+                <path d="M60 40 C 64 62 63 80 60 108 C 57 80 56 62 60 40 Z" fill="url(#lib-body)"/>
+            </g>
+            <symbol id="libellule" viewBox="0 0 120 120">
+                <use href="#libellule-parts"/>
+            </symbol>
+        </defs>
+    </svg>
     <!-- Welcome Screen -->
     <div id="welcome-screen" class="welcome-screen">
         <div class="welcome-content">
@@ -26,7 +53,18 @@
             </div>
 
             <div id="heart-container" class="heart-container hidden-heart">
-                <p class="surprise-text">Prête pour ta surprise ?</p>
+                <svg class="libellule libellule-welcome" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                    <g class="lib-wings">
+                        <ellipse cx="36" cy="46" rx="28" ry="11" fill="url(#lib-wing)" transform="rotate(-24 36 46)"/>
+                        <ellipse cx="84" cy="46" rx="28" ry="11" fill="url(#lib-wing)" transform="rotate(24 84 46)"/>
+                        <ellipse cx="40" cy="66" rx="23" ry="9" fill="url(#lib-wing)" opacity="0.8" transform="rotate(-40 40 66)"/>
+                        <ellipse cx="80" cy="66" rx="23" ry="9" fill="url(#lib-wing)" opacity="0.8" transform="rotate(40 80 66)"/>
+                    </g>
+                    <circle cx="60" cy="32" r="8" fill="url(#lib-body)"/>
+                    <circle cx="57" cy="29" r="1.8" fill="#fff" opacity="0.85"/>
+                    <path d="M60 40 C 64 62 63 80 60 108 C 57 80 56 62 60 40 Z" fill="url(#lib-body)"/>
+                </svg>
+                <p class="surprise-text">Prête pour ta surprise, ma libellule ?</p>
                 <button id="enter-btn" class="heart-btn">❤️</button>
                 <p class="click-hint">Clique sur le coeur</p>
             </div>
@@ -37,6 +75,7 @@
     
     <main class="container">
         <header class="hero">
+            <svg class="libellule libellule-hero" aria-hidden="true" focusable="false"><use href="#libellule"/></svg>
             <h1 class="fade-in-up">Bon retour à Paris, mon amour</h1>
             <p class="subtitle fade-in-up delay-1">Pour fêter ton retour ce 21, j'ai sélectionné quatre lieux parfaits pour nous retrouver.</p>
             <p class="subtitle highlight fade-in-up delay-1">Sélectionne tes <strong>3 endroits préférés</strong> pour créer notre programme parfait !</p>
@@ -189,7 +228,7 @@
 
             <aside class="cart-container fade-in-up delay-2">
                 <div class="cart-glass">
-                    <h2>Notre Programme ❤️</h2>
+                    <h2>Notre Programme <svg class="libellule libellule-cart" aria-hidden="true" focusable="false"><use href="#libellule"/></svg></h2>
                     <p class="cart-count"><span id="count">0</span> / 3 activités choisies</p>
                     <ul id="selected-list" class="selected-list">
                         <!-- Items ajoutés apparaîtront ici -->
@@ -202,6 +241,7 @@
         <!-- Modal de confirmation -->
         <div id="confirmation-modal" class="modal hidden">
             <div class="modal-content">
+                <svg class="libellule libellule-modal" aria-hidden="true" focusable="false"><use href="#libellule"/></svg>
                 <h3 id="modal-title">C'est validé ! 🎉</h3>
                 <p id="modal-desc">J'ai hâte de t'y emmener. Prépare-toi pour une soirée magique !</p>
                 <div id="final-itinerary" class="final-itinerary"></div>
