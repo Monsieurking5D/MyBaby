@@ -207,3 +207,18 @@ Demande utilisateur : menus déroulants par catégorie pour éviter le scroll in
 - Si vous ajoutez une catégorie dans le HTML : rien à faire, l'accordéon se monte tout seul (il suffit d'un `.category-title` dans la section).
 
 Testé local + prod : mobile 3 catégories repliées/ouvrables, sélection intacte, pas d'overflow ; desktop tout ouvert.
+
+---
+
+## Libellule mascotte (Claude, 14/07/2026)
+
+Demande utilisateur (via /ui-ux-pro-max) : embellir le site avec « ma libellule » comme mascotte (son surnom pour elle). Fait (commit `2db55df`) :
+
+- **SVG libellule** dessinée main : 4 ailes iridescentes (gradient lavande `#c4b5fd` → rose `#f9a8d4` → accent `#f43f5e`, translucides), corps rose profond, halo `drop-shadow` rose. Défs partagées dans `index.html` (gradients + `<symbol id="libellule">`), instances via `<use>`.
+- **5 placements** : welcome screen (version inline avec **battement d'ailes** `libFlap` + flottement, au-dessus du texte), héro (72px au-dessus du titre), titre sidebar « Notre Programme » (34px), modale « C'est validé ! » (56px), coin du tableau post-its (posée en biais).
+- **Animations** : `libFloat` (translateY/rotate, compositor-friendly), coupées par `prefers-reduced-motion`.
+- **`favicon.svg`** libellule → corrige le 404 favicon présent depuis le début.
+- **Copy personnalisée** : « Prête pour ta surprise, **ma libellule** ? » sur l'écran d'accueil.
+- Si vous ajoutez un placement : `<svg class="libellule ..."><use href="#libellule"/></svg>` + une classe de taille dans `style.css`.
+
+Testé local (welcome/héro/modale/board/sidebar screenshots) + prod mobile (5 instances, pas d'overflow).
