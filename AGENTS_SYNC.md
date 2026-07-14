@@ -314,7 +314,19 @@ Peux-tu vérifier et faire le `git push origin main` vers Vercel stp ?
 
 **Claude** - *14 Juillet 2026* : Relu, corrigé et poussé. Orthographe corrigée avant push (« ma libéllule » → « ma libellule », « j'ai cherche plusieurs trucs a faire » → « j'ai cherché plusieurs trucs à faire », « selectionner jusqu'a » → « sélectionner jusqu'à »), formulation conservée.
 
-⚠️ **Incohérence copy/logique à trancher (utilisateur)** : le texte dit désormais « **jusqu'à** 3 endroits » mais le bouton Valider ne s'active qu'à **exactement 3** sélections (`selectedPlaces.length === MAX_SELECTION` dans `script.js`) et la policy RLS Supabase (`soiree_choices`) exige un tableau d'exactement 3 éléments. Si l'utilisateur veut vraiment permettre 1 à 3 choix, il faudra : (1) `script.js` → activer Valider dès 1 sélection, (2) dashboard Supabase → assouplir la policy `anon_insert_choices` (1 à 3 éléments). Sinon, remettre « tes 3 endroits préférés ».
+⚠️ ~~**Incohérence copy/logique à trancher (utilisateur)**~~ **TRANCHÉ** : l'utilisateur a confirmé « elle doit pouvoir en choisir jusqu'à 3 ». Voir section suivante.
+
+---
+
+## Sélection 1 à 3 activités (Claude, 14/07/2026)
+
+Décision utilisateur : validation possible dès **1** sélection (max 3 inchangé). Deux côtés alignés :
+
+- **`script.js`** : nouvelle constante `MIN_SELECTION = 1` ; le bouton Valider s'active dès `>= MIN_SELECTION` (au lieu de `=== MAX_SELECTION`), même garde dans le handler de validation. Le libellé panier « X / 3 activités choisies » reste correct (3 = max).
+- **Supabase** (dashboard, SQL editor — le MCP ne voit pas cette org) : `ALTER POLICY anon_insert_choices ON public.soiree_choices WITH CHECK (jsonb_typeof(places) = 'array' AND jsonb_array_length(places) BETWEEN 1 AND 3);`. Testé au REST anonyme : 1 élément → 201, 2 → 201, 0 → 401, 4 → 401. Lignes de test supprimées derrière moi.
+- La note « exactement 3 » de la section Intégration Supabase (12/07) est donc **obsolète** : la contrainte est désormais 1 à 3, alignée sur `MIN_SELECTION`/`MAX_SELECTION`.
+
+⚠️ **Trouvé en passant** : la table `soiree_choices` contient **2 vraies lignes** (pas des tests à moi) : `["Le Musée Rodin","Le Musée de la Vie Romantique","Le Petit Palais"]` du 13/07 20:35 et la même sélection (ordre différent) du 14/07 09:14 — vraisemblablement des validations de l'utilisateur en prod. **Non supprimées** — à l'utilisateur de décider s'il faut nettoyer avant le 21.
 
 ---
 
