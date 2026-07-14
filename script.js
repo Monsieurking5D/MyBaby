@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalItinerary = document.getElementById('final-itinerary');
 
     let selectedPlaces = [];
+    const MIN_SELECTION = 1;
     const MAX_SELECTION = 3;
 
     // Supabase (clé publishable : sûre côté client, RLS n'autorise que l'insertion)
@@ -102,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update count
         countDisplay.textContent = selectedPlaces.length;
 
-        // Enable/Disable validate button
-        if (selectedPlaces.length === MAX_SELECTION) {
+        // Enable/Disable validate button (de 1 à 3 sélections)
+        if (selectedPlaces.length >= MIN_SELECTION) {
             validateBtn.removeAttribute('disabled');
         } else {
             validateBtn.setAttribute('disabled', 'true');
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Validate button logic
     validateBtn.addEventListener('click', () => {
-        if (selectedPlaces.length === MAX_SELECTION) {
+        if (selectedPlaces.length >= MIN_SELECTION) {
             // Build final itinerary list in modal
             let html = '<ol>';
             selectedPlaces.forEach(p => {
