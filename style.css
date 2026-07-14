@@ -1443,7 +1443,7 @@ body {
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 150;
+    z-index: 2500;
     background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
