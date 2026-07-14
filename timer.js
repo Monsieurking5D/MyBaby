@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerEl = document.getElementById('anniversary-timer');
     if (!timerEl) return;
 
-    // Date cible : 26 juillet 2026 à 10h00
-    // Attention : en JavaScript, les mois commencent à 0 (Janvier = 0, Juillet = 6)
+    // Target date: July 26, 2026 at 10:00 AM
+    // Note: JavaScript months are 0-indexed (January = 0, July = 6)
     const targetDate = new Date(2026, 6, 26, 10, 0, 0).getTime();
 
     function updateTimer() {
@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Calcul du temps restant en H:m:s:ms
-        // On garde le total des heures (pas de reset à 24) pour un compte à rebours spectaculaire
+        // Remaining time in H:m:s:cs
+        // We keep total hours (no reset at 24) for a spectacular countdown
         const h = Math.floor(diff / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((diff % (1000 * 60)) / 1000);
-        const ms = Math.floor((diff % 1000) / 10); // Affichage sur 2 chiffres (centisecondes) pour éviter un flou illisible
+        const cs = Math.floor((diff % 1000) / 10); // Centiseconds for readability
 
         const pad = (num) => num.toString().padStart(2, '0');
 
-        timerEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(ms)}`;
+        timerEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(cs)}`;
 
         requestAnimationFrame(updateTimer);
     }

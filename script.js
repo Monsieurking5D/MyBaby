@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heartContainer) {
         setTimeout(() => {
             heartContainer.classList.remove('hidden-heart');
-        }, 3800); // Affiche le coeur à la fin du vol
+        }, 3800); // Reveal the heart at the end of the flight
     }
 
     if (enterBtn && welcomeScreen) {
         enterBtn.addEventListener('click', () => {
             welcomeScreen.classList.add('hidden');
-            startLibTraverse();  // Lance les libellules traversantes une fois l'écran d'accueil fermé
+            startLibTraverse();  // Start traversing dragonflies once the welcome screen is dismissed
         });
-        // Une fois le fondu terminé, sortir l'overlay du rendu :
-        // libère le layer compositeur (will-change) et tout coût résiduel
+        // Once the fade-out completes, remove the overlay from rendering:
+        // frees the compositor layer (will-change) and any residual cost
         welcomeScreen.addEventListener('transitionend', (e) => {
             if (e.propertyName === 'opacity' && welcomeScreen.classList.contains('hidden')) {
                 welcomeScreen.style.display = 'none';
@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const MIN_SELECTION = 1;
     const MAX_SELECTION = 3;
 
-    // Supabase (clé publishable : sûre côté client, RLS n'autorise que l'insertion)
+    // Supabase (publishable key: safe client-side, RLS only allows inserts)
     const SUPABASE_URL = 'https://pbnnpbbdgqyvrrgswtac.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_F1wWU2_VC3XrYEa5jJSlog_GyVmpwlx';
 
-    // Enregistrement silencieux : elle ne voit rien, toi tu consultes la table
+    // Silent save: she sees nothing, you check the table
     async function sendChoices(places) {
         try {
             const response = await fetch(`${SUPABASE_URL}/rest/v1/soiree_choices`, {
@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ places: places.map(p => p.name) })
             });
             if (!response.ok) {
-                console.error('Enregistrement échoué :', response.status, await response.text());
+                console.error('Save failed:', response.status, await response.text());
             }
         } catch (error) {
-            console.error('Enregistrement impossible :', error);
+            console.error('Save impossible:', error);
         }
     }
 
     // Confetti animation
-    // Différée après le paint (setTimeout) et insérée en un seul appendChild
-    // (DocumentFragment) pour ne pas bloquer le clic de validation (INP)
+    // Deferred after paint (setTimeout) and inserted in a single appendChild
+    // (DocumentFragment) to avoid blocking the validate click (INP)
     const createConfetti = () => {
         setTimeout(() => {
             const colors = ['#f43f5e', '#e11d48', '#fb7185', '#fda4af', '#fff'];
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update count
         countDisplay.textContent = selectedPlaces.length;
 
-        // Enable/Disable validate button (de 1 à 3 sélections)
+        // Enable/Disable validate button (1 to 3 selections)
         if (selectedPlaces.length >= MIN_SELECTION) {
             validateBtn.removeAttribute('disabled');
         } else {
@@ -138,10 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = card.querySelector('.select-btn');
             if (selectedPlaces.find(p => p.id === id)) {
                 card.classList.add('selected');
-                btn.textContent = 'Sélectionné';
+                btn.textContent = 'Selected';
             } else {
                 card.classList.remove('selected');
-                btn.textContent = 'Ajouter au programme';
+                btn.textContent = 'Add to plan';
             }
         });
     }
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // If not selected, check limit
             if (selectedPlaces.length >= MAX_SELECTION) {
-                alert(`Tu as déjà sélectionné tes ${MAX_SELECTION} activités !`);
+                alert(`You've already selected ${MAX_SELECTION} activities!`);
                 return;
             }
 
@@ -179,6 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Validate button logic
     validateBtn.addEventListener('click', () => {
         if (selectedPlaces.length >= MIN_SELECTION) {
+            // Double-click guard: disable before doing anything so a rapid
+            // second click can't trigger a duplicate Supabase POST
+            if (validateBtn.disabled) return;
+            validateBtn.disabled = true;
+
             // Build final itinerary list in modal
             let html = '<ol>';
             selectedPlaces.forEach(p => {
@@ -191,16 +196,16 @@ document.addEventListener('DOMContentLoaded', () => {
             createConfetti();
             sendChoices(selectedPlaces);
 
-            // Générer le message WhatsApp
+            // Generate WhatsApp message
             const placeNames = selectedPlaces.map(p => p.name).join(", ");
-            const message = `Coucou mon amour ! ❤️ J'ai choisi notre programme pour notre anniversaire : ${placeNames}. J'ai trop hâte ! 🥰`;
+            const message = `Hey my love! ❤️ I've chosen our anniversary plan: ${placeNames}. Can't wait! 🥰`;
             const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
             const whatsappBtn = document.getElementById('whatsapp-btn');
             if (whatsappBtn) {
                 whatsappBtn.href = whatsappUrl;
             }
 
-            // Révéler la section calendrier "À plus tard" en arrière-plan
+            // Reveal the "Save for later" calendar section in the background
             const aPlusTardSection = document.getElementById('a-plus-tard-section');
             if (aPlusTardSection) {
                 aPlusTardSection.style.display = 'block';
@@ -210,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeModalBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
-        // Scroller doucement vers le calendrier une fois la modale fermée
+        // Smooth scroll to the calendar once the modal is closed
         const aPlusTardSection = document.getElementById('a-plus-tard-section');
         if (aPlusTardSection && aPlusTardSection.style.display === 'block') {
             setTimeout(() => {
@@ -222,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.add('hidden');
-            // Scroller doucement vers le calendrier une fois la modale fermée
+            // Smooth scroll to the calendar once the modal is closed
             const aPlusTardSection = document.getElementById('a-plus-tard-section');
             if (aPlusTardSection && aPlusTardSection.style.display === 'block') {
                 setTimeout(() => {
@@ -232,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ───── Libellule traversante ─────
+    // ───── Traversing dragonfly ─────
     let libTimer = null;
 
     function spawnLibellule() {
@@ -244,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         use.setAttribute('href', '#libellule');
         svg.appendChild(use);
 
-        // Trajectoire aléatoire
+        // Random trajectory
         const fromRight = Math.random() > 0.5;
         const y0 = Math.random() * 60 + 12;   // 12–72 vh
         const y1 = Math.random() * 50 + 20;   // 20–70 vh
@@ -281,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startLibTraverse() {
-        // Première libellule après 12s, puis en boucle
+        // First dragonfly after 12s, then loop
         libTimer = setTimeout(() => {
             spawnLibellule();
             scheduleNextLibellule();

@@ -29,7 +29,7 @@ body {
     line-height: 1.6;
 }
 
-/* Desktop : le fond fixe (parallaxe) est restauré quand iOS n'est pas concerné */
+/* Desktop: fixed background (parallax) is restored when iOS is not a concern */
 @media (min-width: 769px) {
     body {
         background-attachment: fixed;
@@ -441,10 +441,10 @@ body {
     color: #fff;
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    /* fade-in-up écrase l'opacité via la classe .fade-in-up : on restaure */
+    /* fade-in-up sets opacity to 0 through the class: we restore it */
     opacity: 1;
     transform: none;
-    /* Dégradé blanc → rose animé */
+    /* White to pink animated gradient */
     background: linear-gradient(115deg, #fff 25%, #fda4af 55%, #fff 80%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -480,8 +480,8 @@ body {
     animation: none; /* stop heartbeat on hover to avoid conflict */
 }
 
-/* Coeur 3D actif : le canvas WebGL remplace l'emoji,
-   la rotation est gérée par Three.js — plus d'animation CSS */
+/* 3D heart active: the WebGL canvas replaces the SVG,
+   rotation is handled by Three.js — no more CSS animation */
 .heart-btn.has-3d {
     animation: none;
     line-height: 0;
@@ -509,9 +509,9 @@ body {
     100% { transform: scale(1); }
 }
 
-/* Rotation 360° (axe Y) + battement, en une seule animation
-   pour éviter les conflits de transform. Tour complet à 60 % puis repos,
-   comme le heartbeat d'origine : laisse une fenêtre stable pour cliquer. */
+/* 360° rotation (Y axis) + heartbeat, combined in one animation
+   to avoid transform conflicts. Full rotation at 60% then rest,
+   like the original heartbeat: leaves a stable window for clicking. */
 @keyframes heartSpin {
     0%   { transform: rotateY(0deg) scale(1); }
     15%  { transform: rotateY(90deg) scale(1.15); }
@@ -521,7 +521,7 @@ body {
     100% { transform: rotateY(360deg) scale(1); }
 }
 
-/* Animation Avion */
+/* Plane Animation */
 .flight-animation-container {
     margin: 3rem auto;
     position: relative;
@@ -546,9 +546,9 @@ body {
     animation: flyCurve 4s ease-in-out forwards;
 }
 
-/* SVG au lieu de l'emoji ✈️ : rendu identique sur tous les OS/navigateurs
-   (l'emoji Windows a un cadrage/une orientation imprévisibles).
-   Le nez de l'icône pointe vers le haut : rotations gérées dans flyCurve. */
+/* SVG instead of emoji ✈️: consistent rendering on all OS/browsers
+   (the Windows emoji has unpredictable alignment/orientation).
+   The icon nose points up: rotations handled in flyCurve. */
 .plane {
     display: block;
     width: 2.5rem;
@@ -557,8 +557,8 @@ body {
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
 }
 
-/* Nez de l'icône à 0deg = vers le haut :
-   45deg = montée vers la droite, 90deg = plat, 135deg = descente */
+/* Nose of the icon at 0deg = pointing up:
+   45deg = climbing right, 90deg = level, 135deg = descending */
 @keyframes flyCurve {
     0% {
         transform: translate(-30px, 100px) rotate(45deg);
@@ -581,8 +581,8 @@ body {
 
 .heart-container {
     margin-top: -3rem;
-    /* visibility volontairement hors transition : pendant le fondu d'apparition,
-       une visibility transitionnée reste "hidden" et rend le coeur non cliquable */
+    /* visibility intentionally left out of the transition: during the fade-in,
+       a transitioning visibility stays "hidden" and makes the heart unclickable */
     transition: opacity 1s ease;
 }
 
@@ -600,7 +600,7 @@ body {
 }
 
 /* Responsive */
-/* Sidebar fixe à droite (desktop) : le panier reste visible en permanence */
+/* Fixed sidebar on the right (desktop): the cart stays always visible */
 @media (min-width: 993px) {
     .container {
         margin-right: 400px; /* réserve la zone de la sidebar */
@@ -626,7 +626,7 @@ body {
         z-index: 50;
     }
 
-    /* Le panneau glass devient le contenu nu de la sidebar */
+    /* The glass panel becomes the bare content of the sidebar */
     .cart-container .cart-glass {
         position: static;
         background: none;
@@ -676,7 +676,7 @@ body {
     }
 }
 
-/* ---------- Calendrier post-its « À plus tard » ---------- */
+/* ---------- Save-for-later sticky-note calendar ---------- */
 .postit-board {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -773,7 +773,7 @@ body {
     gap: 0.4rem;
 }
 
-/* Le post-it : papier clair volontaire sur le thème sombre */
+/* The sticky note: intentionally light paper on the dark theme */
 .postit-note {
     position: relative;
     font-family: 'Caveat', var(--heading-font), cursive;
@@ -798,7 +798,7 @@ body {
     min-height: 56px;
 }
 
-/* Scotch en haut du post-it */
+/* Tape at the top of the sticky note */
 .postit-note::before {
     content: '';
     position: absolute;
@@ -861,7 +861,7 @@ body {
     .postit-days { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
 
-/* ---------- Accordéons de catégories ---------- */
+/* ---------- Category accordions ---------- */
 .category-title[role="button"] {
     cursor: pointer;
     display: flex;
@@ -872,7 +872,7 @@ body {
     transition: color 0.2s ease;
 }
 
-/* Badge + chevron poussés à droite, icône + texte groupés à gauche */
+/* Badge + chevron pushed to the right, icon + text grouped left */
 .category-title[role="button"] .category-meta {
     margin-left: auto;
 }
@@ -916,7 +916,7 @@ body {
     transform: rotate(-90deg);
 }
 
-/* Repli animé : astuce grid-template-rows 1fr -> 0fr */
+/* Animated collapse: grid-template-rows 1fr → 0fr trick */
 .category-body {
     display: grid;
     grid-template-rows: 1fr;
@@ -929,7 +929,7 @@ body {
     min-height: 0;
 }
 
-/* Laisse respirer les ombres/hover des cartes quand c'est ouvert */
+/* Let card shadows/hover breathe when open */
 .category-section:not(.collapsed) .category-body-inner {
     padding: 8px;
     margin: -8px;
@@ -944,7 +944,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* ---------- Libellule mascotte ---------- */
+/* ---------- Dragonfly mascot ---------- */
 .libellule {
     display: inline-block;
     filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.35));
@@ -952,13 +952,13 @@ body {
     flex-shrink: 0;
 }
 
-/* Vol flottant doux (transform seul : compositor-friendly) */
+/* Soft floating flight (transform only: compositor-friendly) */
 @keyframes libFloat {
     0%, 100% { transform: translateY(0) rotate(-4deg); }
     50%      { transform: translateY(-9px) rotate(5deg); }
 }
 
-/* Battement d'ailes (welcome uniquement, SVG inline) */
+/* Wing flapping (welcome only, inline SVG) */
 @keyframes libFlap {
     0%, 100% { transform: scaleX(1); }
     50%      { transform: scaleX(0.72); }
@@ -997,7 +997,7 @@ body {
     animation: libFloat 3.5s ease-in-out infinite;
 }
 
-/* Posée sur le coin du tableau de post-its */
+/* Perched on the corner of the sticky-note board */
 .postit-board {
     position: relative;
 }
@@ -1024,7 +1024,7 @@ body {
     }
 }
 
-/* ---------- Libellule traversante ---------- */
+/* ---------- Traversing dragonfly ---------- */
 .lib-traverse {
     position: fixed;
     left: 0;
@@ -1065,9 +1065,9 @@ body {
     .lib-traverse { display: none; }
 }
 
-/* ---------- Sidebar rétractable ---------- */
+/* ---------- Collapsible sidebar ---------- */
 .cart-toggle {
-    display: none; /* visible seulement quand la sidebar est fixe (desktop) */
+    display: none;    /* visible only when the sidebar is fixed (desktop) */
 }
 
 @media (min-width: 993px) {
@@ -1084,18 +1084,18 @@ body {
     }
 
     body.cart-collapsed .cart-container {
-        /* animation none : l'animation d'entrée fade-in-up (fill forwards)
-           garderait sinon la main sur transform et bloquerait le repli */
+        /* animation: none — the fade-in-up entrance animation (fill forwards)
+           would otherwise hold on to transform and block collapsing */
         animation: none;
         transform: translateX(100%);
     }
 
-    /* Repliée : le contenu reprend toute la largeur */
+    /* Collapsed: content is full-width again */
     body.cart-collapsed .container {
         margin-right: auto;
     }
 
-    /* Languette accrochée au bord gauche de la sidebar : elle suit le panneau */
+    /* Tab attached to the left edge of the sidebar: it follows the panel */
     .cart-toggle {
         position: absolute;
         top: 50%;
@@ -1146,7 +1146,7 @@ body {
     }
 }
 
-/* ---------- Icônes SVG (remplacent les emojis) ---------- */
+/* ---------- SVG icons (replace emojis) ---------- */
 .cat-icon {
     width: 1.5rem;
     height: 1.5rem;
@@ -1163,7 +1163,7 @@ body {
     margin-right: 0.15em;
 }
 
-/* Coeur SVG du bouton d'entrée (fallback du coeur 3D) */
+/* SVG heart on the enter button (3D heart fallback) */
 .heart-svg {
     display: block;
     width: 5.2rem;
@@ -1183,12 +1183,12 @@ body {
     transform: rotate(180deg);
 }
 
-/* ---------- Drawer panier mobile & PC ---------- */
+/* ---------- Mobile cart drawer & desktop ---------- */
 .cart-backdrop {
     display: none;
 }
 
-/* Bouton flottant coeur + compteur */
+/* Floating heart + counter button */
 .cart-fab {
     display: none;
     align-items: center;
@@ -1235,14 +1235,14 @@ body {
 }
 
 @media (min-width: 993px) {
-    /* Sur desktop, afficher le bouton flottant seulement quand la sidebar est rentrée */
+    /* On desktop, show the FAB only when the sidebar is collapsed */
     body.cart-collapsed .cart-fab {
         display: flex;
     }
 }
 
 @media (max-width: 992px) {
-    /* Le panier devient un drawer fixe qui glisse depuis la droite */
+    /* The cart becomes a fixed drawer that slides in from the right */
     .cart-container {
         position: fixed;
         top: 0;
@@ -1259,8 +1259,8 @@ body {
         z-index: 60;
         transform: translateX(100%);
         transition: transform 0.35s ease;
-        /* même piège que le repli desktop : fade-in-up (fill forwards)
-           garderait la main sur transform */
+        /* Same trap as desktop collapse: fade-in-up (fill forwards)
+           would hold onto transform */
         animation: none;
         opacity: 1;
     }
@@ -1278,7 +1278,7 @@ body {
         -webkit-backdrop-filter: none;
     }
 
-    /* Titre + libellule sur une seule ligne dans le drawer */
+    /* Title + dragonfly on one line in the drawer */
     .cart-container .cart-glass h2 {
         display: flex;
         align-items: center;
@@ -1286,7 +1286,7 @@ body {
         font-size: 1.9rem;
     }
 
-    /* Fond assombri, tap pour fermer */
+    /* Dimmed backdrop, tap to close */
     .cart-backdrop {
         display: block;
         position: fixed;
@@ -1303,15 +1303,15 @@ body {
         pointer-events: auto;
     }
 
-    /* Bouton flottant toujours visible sur mobile */
+    /* FAB always visible on mobile */
     .cart-fab {
         display: flex;
     }
 }
 
-/* ---------- Écran d'accueil : ciel étoilé, villes, halo ---------- */
+/* ---------- Welcome screen: starry sky, cities, halo ---------- */
 
-/* Étoiles : deux couches de box-shadow qui scintillent en alternance */
+/* Stars: two layers of box-shadow twinkling in alternation */
 .stars {
     position: absolute;
     inset: 0;
@@ -1355,7 +1355,7 @@ body {
     50%      { opacity: 0.25; }
 }
 
-/* Halo rose doux derrière le contenu */
+/* Soft pink halo behind the content */
 .welcome-content {
     position: relative;
 }
@@ -1369,7 +1369,7 @@ body {
     z-index: -1;
 }
 
-/* Villes aux extrémités du trajet, avec point lumineux */
+/* Cities at each end of the flight path, with a glowing dot */
 .city {
     position: absolute;
     bottom: -1.9rem;
@@ -1396,7 +1396,7 @@ body {
 .city-from { left: 0; transform: translateX(-50%); }
 .city-to   { right: 0; transform: translateX(50%); }
 
-/* Invitation au clic : pulsation discrète */
+/* Click invitation: subtle pulsation */
 .click-hint {
     animation: hintPulse 2.4s ease-in-out infinite;
 }
@@ -1415,7 +1415,7 @@ body {
 
 /* ---------- Apple design pass (skill apple-design) ---------- */
 
-/* §1 Response : feedback instantané au pointer-down, pas au release */
+/* §1 Response: instant feedback on pointer-down, not on release */
 .select-btn:active,
 .validate-btn:not([disabled]):active,
 .postit-remove:active,
@@ -1433,8 +1433,8 @@ body {
     animation: none;
 }
 
-/* §15 Typo : tracking négatif + leading serré sur les grands corps,
-   jamais une seule valeur pour toutes les tailles */
+/* §15 Typo: negative tracking + tight leading on large type,
+   never a single value for all sizes */
 .hero h1,
 .welcome-title {
     letter-spacing: -0.02em;
@@ -1448,8 +1448,8 @@ body {
     line-height: 1.15;
 }
 
-/* §12 Matériaux : saturation derrière le verre + arête lumineuse
-   (la lumière accroche le bord supérieur du matériau) */
+/* §12 Materials: saturation behind the glass + bright top edge
+   (light catches the top edge of the material) */
 .card,
 .cart-glass,
 .postit-board {
@@ -1470,7 +1470,7 @@ body {
     }
 }
 
-/* §14 Reduced motion : le drawer/panneau se cross-fade au lieu de glisser */
+/* §14 Reduced motion: the drawer/panel cross-fades instead of sliding */
 @media (prefers-reduced-motion: reduce) {
     .cart-container {
         transition: opacity 200ms ease;
@@ -1504,7 +1504,7 @@ body {
     }
 }
 
-/* §14 Reduced transparency : surfaces givrées -> quasi solides */
+/* §14 Reduced transparency: frosted surfaces → near-solid */
 @media (prefers-reduced-transparency: reduce) {
     .card,
     .cart-glass,
@@ -1521,7 +1521,13 @@ body {
     }
 }
 
-/* Timer d'anniversaire */
+/* WhatsApp button in the modal: no pulse */
+#whatsapp-btn {
+    animation: none;
+    opacity: 1;
+}
+
+/* Anniversary timer */
 .anniversary-timer {
     position: fixed;
     top: 20px;

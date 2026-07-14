@@ -342,23 +342,29 @@ Il semble donc qu'il ait prévu un moyen pour que tu puisses exécuter cette mod
 
 ---
 
-## Animations & Correctifs Mobile (Buffy, 14/07/2026)
+## Animations & Mobile Fixes (Buffy, 14/07/2026)
 
-### Animations ajoutées (style.css + script.js)
+### Animations added (style.css + script.js)
 
-1. **Bouton Valider qui pulse** (`.validate-btn:not([disabled])`, `@keyframes validateGlow`) : halo vert émeraude respirant (box-shadow animé, 2.4s), coupé au hover (`animation: none`). Respecte `prefers-reduced-motion`.
-2. **Titre welcome en dégradé animé** (`.welcome-title`, `@keyframes shimmerTitle`) : dégradé blanc→rose en background-position shift (4.5s), 100% GPU-composited.
-3. **Libellule traversante** (`@keyframes libTraverse` + JS `spawnLibellule()`) : une libellule SVG traverse l'écran sur une trajectoire courbe aléatoire toutes les 22–40s. Cleanup automatique (`animationend → remove()`), transform+opacity uniquement (compositor-only). Direction aléatoire gauche↔droite, positions Y et durée randomisées. Démarrée 12s après la fermeture de l'écran d'accueil. Respecte `prefers-reduced-motion`.
+1. **Pulsing Validate button** (`.validate-btn:not([disabled])`, `@keyframes validateGlow`): breathing emerald green halo (animated box-shadow, 2.4s), disabled on hover (`animation: none`). Respects `prefers-reduced-motion`.
+2. **Animated gradient welcome title** (`.welcome-title`, `@keyframes shimmerTitle`): white→pink gradient via background-position shift (4.5s), 100% GPU-composited.
+3. **Traversing dragonfly** (`@keyframes libTraverse` + JS `spawnLibellule()`): an SVG dragonfly flies across the screen on a random curved trajectory every 22–40s. Auto-cleanup (`animationend → remove()`), transform+opacity only (compositor-only). Random left↔right direction, randomized Y positions and duration. Starts 12s after the welcome screen closes. Respects `prefers-reduced-motion`.
 
-### Correctifs mobile
+### Mobile fixes
 
-- **Bug critique corrigé** : `.welcome-title` était invisible car `.fade-in-up` (opacity:0) + `.welcome-title` (shimmerTitle qui n'anime que background-position) → `opacity: 1; transform: none` ajouté dans le bloc `.welcome-title`. `fade-in-up` retiré du `<h1>` dans `index.html`.
-- **background-attachment iOS** : `fixed` → `scroll` par défaut (iOS Safari buggé avec fixed), restauré en `fixed` via `@media (min-width: 769px)` pour desktop.
-- **Tailles mobile** (max-width: 768px) : welcome-title 2.4rem, welcome-text 1.05rem, category-title 1.8rem, flight-animation-container 220px, modal-content padding réduit, cards-grid 1fr (fini le minmax qui overflow), lib-traverse 34px.
-- **Blocs CSS nettoyés** : deux `.welcome-title` fusionnés en un seul, duplicate `@keyframes shimmerTitle` supprimé, commentaire mort retiré.
-- **z-index timer** : `.anniversary-timer` à 2500 (au-dessus de l'overlay welcome à 2000) pour être visible en permanence.
+- **Critical bug fixed**: `.welcome-title` was invisible because `.fade-in-up` (opacity:0) + `.welcome-title` (shimmerTitle only animates background-position) → `opacity: 1; transform: none` added to the `.welcome-title` block. `fade-in-up` removed from the `<h1>` in `index.html`.
+- **background-attachment iOS**: `fixed` → `scroll` by default (iOS Safari buggy with fixed), restored to `fixed` via `@media (min-width: 769px)` for desktop.
+- **Mobile sizing** (max-width: 768px): welcome-title 2.4rem, welcome-text 1.05rem, category-title 1.8rem, flight-animation-container 220px, modal-content reduced padding, cards-grid 1fr (no more minmax overflow), lib-traverse 34px.
+- **CSS blocks cleaned up**: two `.welcome-title` merged into one, duplicate `@keyframes shimmerTitle` removed, dead comment removed.
+- **Timer z-index**: `.anniversary-timer` at 2500 (above the welcome overlay at 2000) to be always visible.
 
-⚠️ **Piège connu** : si vous ajoutez une animation sur un élément qui a la classe `.fade-in-up`, vérifiez que l'animation n'écrase pas l'opacity/transform d'entrée (sinon l'élément reste invisible).
+⚠️ **Known pitfall**: if you add an animation to an element that has the `.fade-in-up` class, make sure the animation doesn't override the entrance opacity/transform (otherwise the element stays invisible).
+
+---
+
+## Full project translation to English (Buffy, 14/07/2026)
+
+All user-facing text, comments, aria-labels, alerts, and WhatsApp messages translated from French to English across all project files. Place names and arrondissements preserved in French as proper nouns. Code logic unchanged.
 
 **Claude** - *14 Juillet 2026* : Relu, corrigé, commité et poussé le travail de Buffy (il était resté non commité dans l'arbre de travail).
 
@@ -377,3 +383,45 @@ Demande utilisateur : changer le lien Vercel. Fait via le dashboard :
 - Vérifié : nouveau domaine 200 + contenu servi, redirection testée. Le repo GitHub `MyBaby` et le déploiement auto sur push `main` sont inchangés (`.vercel/project.json` local garde le même `projectId`, pas de re-link nécessaire).
 
 **➡️ Le lien à partager à sa copine est désormais : https://njuillet2026.vercel.app**
+
+---
+
+## ~ À Faire (Pour Claude) - Anti double-clic + Push Vercel (Buffy, 14/07/2026)
+
+Deux choses à faire, demandées explicitement par l'utilisateur :
+
+### 1. Guard anti double-clic sur le bouton Valider
+
+Actuellement, `validateBtn.addEventListener('click', ...)` dans `script.js` n'a aucune protection contre les clics rapides multiples. Si l'utilisatrice double-clique sur "Confirm our evening" :
+- La modale s'ouvre (OK)
+- Les confettis se lancent 2x (pas grave visuellement)
+- **Supabase reçoit 2 POST** → 2 lignes en doublon dans `soiree_choices` (problème)
+
+**Fix à appliquer** : d'abord désactiver le bouton, puis exécuter la logique. Quelque chose comme :
+```js
+validateBtn.addEventListener('click', () => {
+    if (validateBtn.disabled) return;  // garde anti double-clic
+    validateBtn.disabled = true;
+    // ... reste de la logique existante ...
+});
+```
+Le bouton reste disabled après validation (la modale est affichée, pas besoin de le réactiver).
+
+### 2. Push Vercel
+
+Tout le travail de cette session (animations, correctifs mobile, traduction anglaise, fix bouton WhatsApp) est commité en local mais **pas encore poussé**. L'utilisateur demande que tu fasses le `git push origin main` pour déployer sur https://njuillet2026.vercel.app.
+
+**Avant de pousser** : vérifie le diff (`git diff origin/main..HEAD`) pour t'assurer que tout est cohérent, puis :
+```bash
+git push origin main
+```
+Vercel redéploie automatiquement. Vérifie ensuite sur https://njuillet2026.vercel.app que la version anglaise est bien en ligne avec les animations.
+
+**Claude** - *14 Juillet 2026* : Les deux points faits.
+
+1. **Guard anti double-clic** appliqué dans `script.js` : `validateBtn.disabled = true` posé en tête du bloc de validation (+ early return de sécurité). Testé en local : triple-clic rapide → **1 seul POST** Supabase, modale affichée normalement. NB : `updateCart()` ré-active le bouton si elle modifie sa sélection après coup — re-validation possible et voulue (nouvelle ligne en table, la plus récente fait foi).
+2. **Push fait** — précision : le travail de cette session (traduction anglaise + WhatsApp) était dans l'**arbre de travail non commité**, pas « commité en local » — commité et poussé par mes soins après relecture.
+
+**Fix au passage** : « Send **her** my plan! » → « Send **him** my plan! » (c'est elle qui utilise le site et envoie le programme à l'utilisateur — le message WhatsApp « Hey my love! I've chosen our anniversary plan » part vers lui).
+
+Vérifié en prod après déploiement : titre « Welcome Back to Paris », version anglaise servie, double-clic testé en local uniquement (pas de POST prod).

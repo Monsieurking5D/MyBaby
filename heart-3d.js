@@ -1,6 +1,6 @@
-// Coeur 3D (Three.js) injecté dans le bouton #enter-btn.
-// Chargé en <script type="module"> : si le CDN échoue, le module entier
-// est abandonné et le coeur SVG + animation CSS restent en fallback.
+// 3D Heart (Three.js) injected into the #enter-btn button.
+// Loaded as <script type="module">: if the CDN fails, the entire module
+// is abandoned and the SVG heart + CSS animation remain as fallback.
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 
 const btn = document.getElementById('enter-btn');
@@ -13,9 +13,9 @@ if (btn) {
     const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
     camera.position.z = 46;
 
-    // failIfMajorPerformanceCaveat : refuse le WebGL logiciel (SwiftShader).
-    // Sans GPU matériel (VM, vieux drivers), la boucle de rendu peut geler
-    // l'onglet — dans ce cas on lève ici et le coeur SVG reste en fallback.
+    // failIfMajorPerformanceCaveat: refuse software WebGL (SwiftShader).
+    // Without a hardware GPU (VM, old drivers), the render loop can freeze
+    // the tab — we bail out and the SVG heart stays as fallback.
     let renderer;
     try {
         renderer = new THREE.WebGLRenderer({
@@ -23,16 +23,16 @@ if (btn) {
             alpha: true,
             powerPreference: 'low-power',
             failIfMajorPerformanceCaveat: true,
-            preserveDrawingBuffer: true // permet le snapshot toDataURL au clic
+            preserveDrawingBuffer: true // enables toDataURL snapshot on click
         });
     } catch (e) {
-        console.warn('Coeur 3D désactivé (pas de GPU matériel) :', e.message);
-        throw e; // abandonne le module, fallback emoji
+        console.warn('3D heart disabled (no hardware GPU):', e.message);
+        throw e; // abandon module, fallback to SVG
     }
     renderer.setSize(SIZE, SIZE);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Silhouette de coeur classique (courbes de Bézier), extrudée en volume
+    // Classic heart silhouette (Bezier curves), extruded in 3D
     const shape = new THREE.Shape();
     shape.moveTo(5, 5);
     shape.bezierCurveTo(5, 5, 4, 0, 0, 0);
@@ -61,7 +61,7 @@ if (btn) {
     });
 
     const heart = new THREE.Mesh(geometry, material);
-    heart.rotation.z = Math.PI; // la forme est dessinée pointe en haut
+    heart.rotation.z = Math.PI; // shape is drawn point-up
     const group = new THREE.Group();
     group.add(heart);
     scene.add(group);
@@ -74,38 +74,38 @@ if (btn) {
     rim.position.set(-7, -4, 7);
     scene.add(rim);
 
-    // Le canvas remplace le contenu du bouton (SVG coeur = fallback,
-    // conservé pour pouvoir le restaurer si le WebGL lâche)
+    // The canvas replaces the button content (SVG heart = fallback,
+    // preserved so it can be restored if WebGL fails)
     const fallbackMarkup = btn.innerHTML;
     btn.classList.add('has-3d');
     btn.textContent = '';
     btn.appendChild(renderer.domElement);
 
-    // GPU instable (perte de contexte WebGL, vu sur VM/vieux drivers :
-    // peut geler le compositor et bloquer les transitions CSS) →
-    // au premier "context lost", on abandonne le 3D et on remet le SVG.
+    // Unstable GPU (WebGL context loss, seen on VMs/old drivers:
+    // can freeze the compositor and block CSS transitions) →
+    // on first "context lost", we abandon 3D and restore the SVG.
     renderer.domElement.addEventListener('webglcontextlost', (e) => {
-        e.preventDefault(); // pas de tentative de restauration
+        e.preventDefault(); // no restoration attempt
         cancelAnimationFrame(rafId);
         renderer.domElement.remove();
         renderer.dispose();
         geometry.dispose();
         material.dispose();
         btn.classList.remove('has-3d');
-        btn.innerHTML = fallbackMarkup; // l'animation CSS heartSpin reprend
-        console.warn('Coeur 3D désactivé après perte de contexte WebGL, retour au coeur SVG.');
+        btn.innerHTML = fallbackMarkup; // CSS heartSpin animation resumes
+        console.warn('3D heart disabled after WebGL context loss, back to SVG heart.');
     }, { once: true });
 
     let rafId;
     const start = performance.now();
-    const SPIN_MS = 3000;    // un tour complet
-    const BEAT_MS = 1500;    // battement
+    const SPIN_MS = 3000;    // one full rotation
+    const BEAT_MS = 1500;    // heartbeat
 
     function render(now) {
         const t = now - start;
         if (!reducedMotion) {
             group.rotation.y = (t / SPIN_MS) * Math.PI * 2;
-            // battement doux : deux pulsations par cycle
+            // soft beat: two pulses per cycle
             const beat = Math.abs(Math.sin((t / BEAT_MS) * Math.PI));
             const s = 1 + 0.07 * beat * beat;
             group.scale.setScalar(s);
@@ -115,11 +115,11 @@ if (btn) {
     }
     rafId = requestAnimationFrame(render);
 
-    // Dès le clic : remplace le canvas WebGL par un snapshot statique.
-    // Un canvas WebGL vivant dans l'overlay pendant le fondu peut geler
-    // le compositor sur certains GPU (transition bloquée, overlay qui ne
-    // part jamais — observé sur la machine de dev). L'image est identique
-    // à la dernière frame, le fondu reste visuellement seamless.
+    // On click: replace the live WebGL canvas with a static snapshot.
+    // A live WebGL canvas inside the fading overlay can freeze the
+    // compositor on some GPUs (transition stuck, overlay never closes —
+    // observed on dev machine). The image is identical to the last frame,
+    // the fade remains visually seamless.
     btn.addEventListener('click', () => {
         cancelAnimationFrame(rafId);
         try {
