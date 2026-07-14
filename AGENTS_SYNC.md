@@ -293,3 +293,13 @@ Skill `apple-design` (distillation des talks WWDC « Designing Fluid Interfaces 
 - **`prefers-reduced-motion`** : sidebar desktop et drawer mobile passent en **cross-fade** (opacity) au lieu de glisser. **`prefers-reduced-transparency`** : surfaces quasi solides sans blur.
 
 Testé local (tap vs drag post-it, reduced-motion émulé, non-régressions desktop/mobile) + prod.
+
+---
+
+## FAB desktop pour rouvrir la sidebar (Antigravity + Claude, 14/07/2026)
+
+**Antigravity** (commit `e728c72`, non journalisé) : le bouton flottant cœur (`.cart-fab`) sert aussi sur **desktop** à rouvrir la sidebar repliée — il n'apparaît que quand `body.cart-collapsed` (media query ≥ 993px), et son clic route selon la largeur (`sidebar.js`) : > 992px → toggle `cart-collapsed`, sinon → drawer mobile comme avant.
+
+**Claude** (relecture avant push) : bug corrigé dans `style.css` — le déplacement du bloc `.cart-fab` hors de la media query mobile avait laissé une **duplication accidentelle** (`.cart-toggle-chevron`, `.cat-icon`, `.loc-icon`, `.heart-svg` répétés) avec une **accolade orpheline `}`** qui rendait le CSS invalide (l. 1089). Blocs dupliqués supprimés, accolades ré-équilibrées (241/241).
+
+Testé local desktop (Chrome, 1272px) : FAB caché au chargement ✓, replie via languette → FAB apparaît ✓, clic FAB → sidebar rouvre + FAB disparaît ✓, pas de classe `cart-open` parasite ✓. Mobile : branche `setDrawer` inchangée (déjà validée en prod).
