@@ -191,6 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
             createConfetti();
             sendChoices(selectedPlaces);
 
+            // Générer le message WhatsApp
+            const placeNames = selectedPlaces.map(p => p.name).join(", ");
+            const message = `Coucou mon amour ! ❤️ J'ai choisi notre programme pour notre anniversaire : ${placeNames}. J'ai trop hâte ! 🥰`;
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            if (whatsappBtn) {
+                whatsappBtn.href = whatsappUrl;
+            }
+
             // Révéler la section calendrier "À plus tard" en arrière-plan
             const aPlusTardSection = document.getElementById('a-plus-tard-section');
             if (aPlusTardSection) {
