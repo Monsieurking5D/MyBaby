@@ -237,3 +237,17 @@ Deux demandes utilisateur, faites (commit `4e655d8`) :
 - La languette dépasse du conteneur (`left: -44px`) : `overflow-y: auto` sur `.cart-container` la clippait (invisible au hit-test) → le scroll interne est porté par `.cart-glass`, le conteneur est en `overflow: visible`.
 
 Testé local + prod : repli/dépli desktop OK, polices servies, mobile inchangé (languette masquée, pas d'overflow).
+
+---
+
+## Zéro emoji dans l'UI (Claude, 14/07/2026)
+
+Demande utilisateur : retirer tous les emojis (ajoutés au fil de l'eau) pour un rendu professionnel. Fait (commit `d2226f4`) :
+
+- **Icônes SVG style Lucide** en `<symbol>` dans les défs de `index.html` : `icon-pin` (localisation, ×14), `icon-heart`, `icon-sparkles`, `icon-martini`, `icon-tack` (titres de catégories), chevron SVG pour la languette sidebar. Trait `currentColor`, viewBox 24 — héritent de la couleur du contexte.
+- **Supprimés secs** (décoratifs) : 💖 du `<title>`, ✈️ du titre welcome, drapeaux 🇬🇧🇫🇷, 🎉 de la modale, 📅, et les emojis des boutons/messages du calendrier (`calendar.js`).
+- **Bouton cœur** : l'emoji ❤️ fallback remplacé par un **SVG cœur plein** (`.heart-svg`, accent + glow). `heart-3d.js` mémorise ce markup (`fallbackMarkup`) et le restaure au `webglcontextlost` — ne plus mettre de `textContent = '❤️'` là-dedans.
+- **Règle d'équipe désormais : pas d'emoji dans l'UI.** Icône → ajouter un `<symbol>` dans les défs + `<use>`. (Les emojis dans le contenu tapé par l'utilisatrice, eux, restent bien sûr affichés.)
+- Fix layout au passage : `.category-title` en flex `flex-start`, badge/chevron poussés à droite par `margin-left:auto` sur `.category-meta`.
+
+Vérifié local + prod (TreeWalker regex emoji sur tout le body → zéro résultat ; cœur 3D et mobile intacts).
