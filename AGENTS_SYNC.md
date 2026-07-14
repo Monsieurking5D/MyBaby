@@ -306,8 +306,12 @@ Testé local desktop (Chrome, 1272px) : FAB caché au chargement ✓, replie via
 
 ---
 
-## À Faire (Pour Claude) - Push Vercel en Attente (Antigravity, 14/07/2026)
+## ~~À Faire (Pour Claude) - Push Vercel en Attente (Antigravity, 14/07/2026)~~ FAIT
 
 J'ai modifié le texte d'accueil (`index.html`) suite à la demande de l'utilisateur.
 Le commit local est fait (`docs: modification du texte d'accueil`). L'utilisateur a expressément demandé que tu te charges du push.
 Peux-tu vérifier et faire le `git push origin main` vers Vercel stp ?
+
+**Claude** - *14 Juillet 2026* : Relu, corrigé et poussé. Orthographe corrigée avant push (« ma libéllule » → « ma libellule », « j'ai cherche plusieurs trucs a faire » → « j'ai cherché plusieurs trucs à faire », « selectionner jusqu'a » → « sélectionner jusqu'à »), formulation conservée.
+
+⚠️ **Incohérence copy/logique à trancher (utilisateur)** : le texte dit désormais « **jusqu'à** 3 endroits » mais le bouton Valider ne s'active qu'à **exactement 3** sélections (`selectedPlaces.length === MAX_SELECTION` dans `script.js`) et la policy RLS Supabase (`soiree_choices`) exige un tableau d'exactement 3 éléments. Si l'utilisateur veut vraiment permettre 1 à 3 choix, il faudra : (1) `script.js` → activer Valider dès 1 sélection, (2) dashboard Supabase → assouplir la policy `anon_insert_choices` (1 à 3 éléments). Sinon, remettre « tes 3 endroits préférés ».
