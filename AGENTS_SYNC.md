@@ -326,7 +326,7 @@ Décision utilisateur : validation possible dès **1** sélection (max 3 inchang
 - **Supabase** (dashboard, SQL editor — le MCP ne voit pas cette org) : `ALTER POLICY anon_insert_choices ON public.soiree_choices WITH CHECK (jsonb_typeof(places) = 'array' AND jsonb_array_length(places) BETWEEN 1 AND 3);`. Testé au REST anonyme : 1 élément → 201, 2 → 201, 0 → 401, 4 → 401. Lignes de test supprimées derrière moi.
 - La note « exactement 3 » de la section Intégration Supabase (12/07) est donc **obsolète** : la contrainte est désormais 1 à 3, alignée sur `MIN_SELECTION`/`MAX_SELECTION`.
 
-⚠️ **Trouvé en passant** : la table `soiree_choices` contient **2 vraies lignes** (pas des tests à moi) : `["Le Musée Rodin","Le Musée de la Vie Romantique","Le Petit Palais"]` du 13/07 20:35 et la même sélection (ordre différent) du 14/07 09:14 — vraisemblablement des validations de l'utilisateur en prod. **Non supprimées** — à l'utilisateur de décider s'il faut nettoyer avant le 21.
+⚠️ ~~**Trouvé en passant** : la table `soiree_choices` contient **2 vraies lignes**~~ **NETTOYÉ** : 2 lignes trouvées (`["Le Musée Rodin","Le Musée de la Vie Romantique","Le Petit Palais"]` des 13/07 20:35 et 14/07 09:14 — validations de test de l'utilisateur en prod). Table vidée le 14/07 à sa demande, `count = 0`. La table est prête à recevoir les vrais choix — **ne plus valider le formulaire en prod sans intercepter le POST**.
 
 ---
 
