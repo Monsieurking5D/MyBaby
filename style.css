@@ -1205,3 +1205,116 @@ body {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
 }
+
+/* ---------- Écran d'accueil : ciel étoilé, villes, halo ---------- */
+
+/* Étoiles : deux couches de box-shadow qui scintillent en alternance */
+.stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.stars::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.stars-1::before {
+    box-shadow:
+        8vw 12vh 0 #fff, 22vw 6vh 0 rgba(255,255,255,0.7), 35vw 18vh 0 #fff,
+        48vw 9vh 0 rgba(253,164,175,0.9), 61vw 15vh 0 #fff, 74vw 7vh 0 rgba(255,255,255,0.6),
+        88vw 13vh 0 #fff, 15vw 32vh 0 rgba(255,255,255,0.8), 42vw 28vh 0 #fff,
+        68vw 30vh 0 rgba(196,181,253,0.9), 92vw 26vh 0 #fff, 5vw 58vh 0 rgba(255,255,255,0.7),
+        27vw 72vh 0 #fff, 55vw 82vh 0 rgba(255,255,255,0.6), 79vw 76vh 0 #fff,
+        94vw 64vh 0 rgba(253,164,175,0.8), 12vw 88vh 0 #fff, 47vw 92vh 0 rgba(255,255,255,0.5);
+    animation: twinkle 4s ease-in-out infinite;
+}
+
+.stars-2::before {
+    box-shadow:
+        14vw 8vh 0 rgba(255,255,255,0.6), 30vw 14vh 0 #fff, 44vw 4vh 0 rgba(196,181,253,0.8),
+        57vw 20vh 0 #fff, 70vw 11vh 0 rgba(255,255,255,0.7), 83vw 17vh 0 #fff,
+        96vw 9vh 0 rgba(253,164,175,0.7), 9vw 42vh 0 #fff, 36vw 38vh 0 rgba(255,255,255,0.6),
+        63vw 44vh 0 #fff, 86vw 40vh 0 rgba(255,255,255,0.8), 19vw 66vh 0 #fff,
+        39vw 78vh 0 rgba(196,181,253,0.7), 66vw 88vh 0 #fff, 90vw 82vh 0 rgba(255,255,255,0.6),
+        3vw 74vh 0 #fff, 52vw 62vh 0 rgba(255,255,255,0.5), 76vw 94vh 0 #fff;
+    animation: twinkle 4s ease-in-out 2s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.25; }
+}
+
+/* Halo rose doux derrière le contenu */
+.welcome-content {
+    position: relative;
+}
+
+.welcome-content::before {
+    content: '';
+    position: absolute;
+    inset: -20% -30%;
+    background: radial-gradient(ellipse at center, rgba(244, 63, 94, 0.12) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Titre en dégradé blanc → rose */
+.welcome-title {
+    background: linear-gradient(115deg, #fff 40%, #fda4af 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.01em;
+}
+
+/* Villes aux extrémités du trajet, avec point lumineux */
+.city {
+    position: absolute;
+    bottom: -1.9rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.city::before {
+    content: '';
+    position: absolute;
+    top: -1.05rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px 2px rgba(244, 63, 94, 0.65);
+}
+
+.city-from { left: 0; transform: translateX(-50%); }
+.city-to   { right: 0; transform: translateX(50%); }
+
+/* Invitation au clic : pulsation discrète */
+.click-hint {
+    animation: hintPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stars::before,
+    .click-hint {
+        animation: none;
+    }
+}
