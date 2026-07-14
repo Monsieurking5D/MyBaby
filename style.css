@@ -1,6 +1,6 @@
 :root {
-    --primary-font: 'Inter', sans-serif;
-    --heading-font: 'Playfair Display', serif;
+    --primary-font: 'Montserrat', sans-serif;
+    --heading-font: 'Cormorant Garamond', serif;
     --bg-color-1: #0f172a; /* Deep elegant dark blue */
     --bg-color-2: #311339; /* Deep romantic plum */
     --card-bg: rgba(255, 255, 255, 0.05);
@@ -60,7 +60,7 @@ body {
 
 .hero h1 {
     font-family: var(--heading-font);
-    font-size: 3.5rem;
+    font-size: 3.9rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #fff;
@@ -99,7 +99,7 @@ body {
 
 .category-title {
     font-family: var(--heading-font);
-    font-size: 2rem;
+    font-size: 2.3rem;
     color: var(--accent);
     margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -158,7 +158,7 @@ body {
 
 .card h2 {
     font-family: var(--heading-font);
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     margin-bottom: 0.25rem;
     color: #fff;
 }
@@ -222,7 +222,7 @@ body {
 .cart-glass h2 {
     font-family: var(--heading-font);
     margin-bottom: 0.5rem;
-    font-size: 1.8rem;
+    font-size: 2.1rem;
 }
 
 .cart-count {
@@ -328,7 +328,7 @@ body {
 
 .modal-content h3 {
     font-family: var(--heading-font);
-    font-size: 2rem;
+    font-size: 2.3rem;
     margin-bottom: 1rem;
     color: #fff;
 }
@@ -423,7 +423,7 @@ body {
 
 .welcome-title {
     font-family: var(--heading-font);
-    font-size: 3.5rem;
+    font-size: 3.9rem;
     color: #fff;
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -965,5 +965,86 @@ body {
     .libellule,
     .libellule-welcome .lib-wings {
         animation: none;
+    }
+}
+
+/* ---------- Sidebar rétractable ---------- */
+.cart-toggle {
+    display: none; /* visible seulement quand la sidebar est fixe (desktop) */
+}
+
+@media (min-width: 993px) {
+    .cart-container {
+        transition: transform 0.35s ease;
+        /* la languette dépasse à gauche : ne pas la clipper —
+           le scroll interne est porté par .cart-glass */
+        overflow: visible;
+    }
+
+    .cart-container .cart-glass {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    body.cart-collapsed .cart-container {
+        /* animation none : l'animation d'entrée fade-in-up (fill forwards)
+           garderait sinon la main sur transform et bloquerait le repli */
+        animation: none;
+        transform: translateX(100%);
+    }
+
+    /* Repliée : le contenu reprend toute la largeur */
+    body.cart-collapsed .container {
+        margin-right: auto;
+    }
+
+    /* Languette accrochée au bord gauche de la sidebar : elle suit le panneau */
+    .cart-toggle {
+        position: absolute;
+        top: 50%;
+        left: -44px;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        width: 44px;
+        padding: 0.9rem 0;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid var(--card-border);
+        border-right: none;
+        border-radius: 12px 0 0 12px;
+        color: var(--text-primary);
+        cursor: pointer;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        transition: background 0.2s ease;
+    }
+
+    .cart-toggle:hover {
+        background: rgba(244, 63, 94, 0.25);
+    }
+
+    .cart-toggle:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+    .cart-toggle-chevron {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .cart-toggle-count {
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
