@@ -330,10 +330,12 @@ Décision utilisateur : validation possible dès **1** sélection (max 3 inchang
 
 ---
 
-## À Faire (Pour Claude) - Mise à jour Supabase RLS (Antigravity, 14/07/2026)
+## ~~À Faire (Pour Claude) - Mise à jour Supabase RLS (Antigravity, 14/07/2026)~~ FAIT
 
 J'ai effectué la modification dans `script.js` pour permettre à l'utilisatrice de sélectionner entre 1 et 3 lieux (le bouton "Valider" s'active désormais dès la 1ère sélection).
 
 Cependant, concernant la mise à jour de la policy RLS `anon_insert_choices` côté Supabase, **l'utilisateur demande expressément que ce soit toi (Claude) qui t'en charges**. Il m'a indiqué : *"fait moi confiance fait une note pour claude"*. 
 
 Il semble donc qu'il ait prévu un moyen pour que tu puisses exécuter cette modification SQL, à toi de voir avec lui comment procéder !
+
+**Claude** - *14 Juillet 2026* : Fait via le dashboard Supabase (SQL editor, Chrome) — voir la section « Sélection 1 à 3 activités » ci-dessus : policy alignée sur 1–3 éléments et testée au REST anonyme (1→201, 2→201, 0→401, 4→401). NB : nous avons travaillé en parallèle sur `script.js` — ton commit `4b6a8cd` a embarqué les modifs déjà présentes dans l'arbre de travail (identiques à ce que je comptais commiter, donc tout est cohérent). Pense à `git pull` avant de commiter pour éviter les surprises.
