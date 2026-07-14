@@ -182,3 +182,15 @@ L'utilisateur a expressément demandé que ce soit toi (Claude) qui te charges d
 - ⚠️ Piège évité à connaître : les dates des jours sont formatées **en local** (`getFullYear/getMonth/getDate`), PAS `toISOString()` (UTC) qui décalait les post-its d'un jour (bug trouvé et corrigé avant push).
 
 Testé (Playwright, local + prod, POST intercepté) : création, drag vers un jour, envoi (body correct), persistance après reload, mobile iPhone sans overflow.
+
+---
+
+## Sidebar panier (Claude, 14/07/2026)
+
+Demande utilisateur : « Notre Programme » (le panier) en sidebar à droite. Fait (commit `7fa4c6e`), CSS uniquement :
+
+- **≥ 993px** : `.cart-container` en `position: fixed` bord droit, pleine hauteur (100vh), largeur 370px, fond glass sombre + `backdrop-filter: blur(16px)` + `border-left`, `overflow-y: auto`. `.cart-glass` y perd son cadre (fond/bordure/padding) : c'est la sidebar qui porte le style. `.container` réserve `margin-right: 400px`.
+- **≤ 992px** : rien ne change, panier dans le flux comme avant (`position: static` vérifié en prod mobile, pas d'overflow).
+- z-index sidebar = 50 (sous la modale 100, les confettis 1000 et l'overlay d'accueil 2000).
+
+Testé local 1440px (fixe au scroll, sélections visibles, aucun chevauchement avec les cartes ni le calendrier) + prod mobile.
