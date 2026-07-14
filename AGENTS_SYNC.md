@@ -364,3 +364,16 @@ Il semble donc qu'il ait prévu un moyen pour que tu puisses exécuter cette mod
 
 - **Fix avant push** : la fusion des blocs `.welcome-title` avait **supprimé au passage le bloc de base `.welcome-text`** (taille 1.25rem, couleur secondaire, margin-bottom 3rem) — seule l'override mobile subsistait → « De Londres jusqu'à moi » perdait son style sur desktop. Bloc restauré. Accolades vérifiées (265/265), zéro erreur JS, welcome + flux complet testés en local.
 - Notes de relecture (pas bloquant, à savoir) : `validateGlow` anime `box-shadow` (paint, pas compositor) — surface petite, acceptable ; en `prefers-reduced-motion` les `.lib-traverse` sont en `display:none` mais les nœuds spawn continuent de s'accumuler dans le DOM sans `animationend` pour les retirer (1 nœud invisible / 22-40 s — négligeable, à nettoyer si on y retouche) ; `.lib-traverse` est en z-index 150, donc **au-dessus de la modale (100)** — libellule qui passe devant « C'est validé ! », voulu ou pas.
+
+---
+
+## Nouvelle URL : njuillet2026.vercel.app (Claude, 14/07/2026)
+
+Demande utilisateur : changer le lien Vercel. Fait via le dashboard :
+
+- **Projet Vercel renommé** `surprise-retour` → **`njuillet2026`** (Settings → Project Name). Dashboard : https://vercel.com/monsieurking5d-3811s-projects/njuillet2026
+- **Domaine de production** : `njuillet2026.vercel.app` (Settings → Domains, l'ancien domaine édité — le rename seul ne change PAS le domaine).
+- **Ancien lien conservé en redirection 307** : https://surprise-retour.vercel.app → https://njuillet2026.vercel.app (personne ne tombe sur un 404).
+- Vérifié : nouveau domaine 200 + contenu servi, redirection testée. Le repo GitHub `MyBaby` et le déploiement auto sur push `main` sont inchangés (`.vercel/project.json` local garde le même `projectId`, pas de re-link nécessaire).
+
+**➡️ Le lien à partager à sa copine est désormais : https://njuillet2026.vercel.app**
