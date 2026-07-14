@@ -1086,15 +1086,101 @@ body {
     height: 1.1rem;
     transition: transform 0.25s ease;
 }
+}
+
+/* ---------- Icônes SVG (remplacent les emojis) ---------- */
+.cat-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: -0.2rem;
+    margin-right: 0.35rem;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.loc-icon {
+    width: 0.95em;
+    height: 0.95em;
+    vertical-align: -0.12em;
+    margin-right: 0.15em;
+}
+
+/* Coeur SVG du bouton d'entrée (fallback du coeur 3D) */
+.heart-svg {
+    display: block;
+    width: 5.2rem;
+    height: 5.2rem;
+    margin: 0 auto;
+    color: var(--accent);
+    filter: drop-shadow(0 0 14px rgba(244, 63, 94, 0.45));
+}
+
+.cart-toggle-chevron {
+    width: 1.1rem;
+    height: 1.1rem;
+    transition: transform 0.25s ease;
+}
 
 .cart-toggle-chevron.is-collapsed {
     transform: rotate(180deg);
 }
 
-/* ---------- Drawer panier mobile ---------- */
-.cart-fab,
+/* ---------- Drawer panier mobile & PC ---------- */
 .cart-backdrop {
     display: none;
+}
+
+/* Bouton flottant coeur + compteur */
+.cart-fab {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
+    z-index: 65;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cart-fab:active {
+    transform: scale(0.94);
+}
+
+.cart-fab-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.cart-fab-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #fff;
+    color: var(--accent-hover);
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 993px) {
+    /* Sur desktop, afficher le bouton flottant seulement quand la sidebar est rentrée */
+    body.cart-collapsed .cart-fab {
+        display: flex;
+    }
 }
 
 @media (max-width: 992px) {
@@ -1159,50 +1245,9 @@ body {
         pointer-events: auto;
     }
 
-    /* Bouton flottant coeur + compteur */
+    /* Bouton flottant toujours visible sur mobile */
     .cart-fab {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        bottom: 1.25rem;
-        right: 1.25rem;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        border: none;
-        background: var(--accent);
-        color: #fff;
-        cursor: pointer;
-        box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
-        z-index: 65;
-        transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .cart-fab:active {
-        transform: scale(0.94);
-    }
-
-    .cart-fab-icon {
-        width: 26px;
-        height: 26px;
-    }
-
-    .cart-fab-count {
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        background: #fff;
-        color: var(--accent-hover);
-        font-size: 0.75rem;
-        font-weight: 600;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     }
 }
 

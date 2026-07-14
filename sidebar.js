@@ -45,7 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('cart-open', open);
         fab.setAttribute('aria-expanded', String(open));
     };
-    fab.addEventListener('click', () => setDrawer(!document.body.classList.contains('cart-open')));
+    
+    fab.addEventListener('click', () => {
+        if (window.innerWidth > 992) {
+            // Sur PC, le bouton fab sert à rouvrir la sidebar rangée
+            const collapsed = document.body.classList.toggle('cart-collapsed');
+            toggle.setAttribute('aria-expanded', String(!collapsed));
+            chevron.classList.toggle('is-collapsed', collapsed);
+        } else {
+            // Sur mobile, le fab bascule le drawer
+            setDrawer(!document.body.classList.contains('cart-open'));
+        }
+    });
     backdrop.addEventListener('click', () => setDrawer(false));
     // Valider depuis le drawer : on le referme pour laisser place à la modale
     const validateBtn = document.getElementById('validate-btn');
