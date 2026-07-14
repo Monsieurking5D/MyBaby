@@ -251,3 +251,16 @@ Demande utilisateur : retirer tous les emojis (ajoutés au fil de l'eau) pour un
 - Fix layout au passage : `.category-title` en flex `flex-start`, badge/chevron poussés à droite par `margin-left:auto` sur `.category-meta`.
 
 Vérifié local + prod (TreeWalker regex emoji sur tout le body → zéro résultat ; cœur 3D et mobile intacts).
+
+---
+
+## Drawer panier mobile (Claude, 14/07/2026)
+
+Retour utilisateur : « sur mobile la sidebar ne fonctionne pas » — le panier était dans le flux en bas de page, invisible pendant la sélection. Fait (commit `702c33c`) :
+
+- **≤ 992px** : `.cart-container` devient un **drawer** fixe (largeur `min(85vw, 340px)`) qui glisse depuis la droite. Ouverture via un **bouton flottant** (`.cart-fab`, cœur SVG + badge compteur, bas droite). Fond assombri (`.cart-backdrop`), tap dehors pour fermer. Valider depuis le drawer le referme automatiquement avant d'afficher la modale.
+- **Compteur partagé** : languette desktop + FAB mobile alimentés par le même `MutationObserver` sur `#count` (`sidebar.js`).
+- **z-index** : backdrop 55, drawer 60, FAB 65 — tous sous la modale (100), les confettis (1000) et l'overlay d'accueil (2000).
+- ⚠️ Même piège que le repli desktop : `animation: none` obligatoire sur le drawer (sinon `fade-in-up` fill forwards garde la main sur `transform`).
+
+Testé local + prod mobile : FAB visible avec compteur live (3), drawer s'ouvre/se ferme (backdrop), validation depuis le drawer → drawer fermé + modale affichée. Desktop non-régressé (FAB caché, languette et repli intacts).
