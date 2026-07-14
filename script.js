@@ -188,16 +188,36 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.classList.remove('hidden');
             createConfetti();
             sendChoices(selectedPlaces);
+
+            // Révéler la section calendrier "À plus tard" en arrière-plan
+            const aPlusTardSection = document.getElementById('a-plus-tard-section');
+            if (aPlusTardSection) {
+                aPlusTardSection.style.display = 'block';
+            }
         }
     });
 
     closeModalBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
+        // Scroller doucement vers le calendrier une fois la modale fermée
+        const aPlusTardSection = document.getElementById('a-plus-tard-section');
+        if (aPlusTardSection && aPlusTardSection.style.display === 'block') {
+            setTimeout(() => {
+                aPlusTardSection.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
     });
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.add('hidden');
+            // Scroller doucement vers le calendrier une fois la modale fermée
+            const aPlusTardSection = document.getElementById('a-plus-tard-section');
+            if (aPlusTardSection && aPlusTardSection.style.display === 'block') {
+                setTimeout(() => {
+                    aPlusTardSection.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            }
         }
     });
 });
